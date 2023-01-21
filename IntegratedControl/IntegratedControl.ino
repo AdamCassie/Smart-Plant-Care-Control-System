@@ -263,3 +263,38 @@ byte potassium()
   }
   return values[4];
 }
+
+void select_controller(n_target, p_target, k_target, moisture_target)
+{
+  byte val;
+  while (1)
+  {
+    val = nitrogen();
+    int nitrogen_lvl = int(val);
+
+    val = phosphorous();
+    int phosphorous_lvl = int(val);
+
+    val = potassium();
+    int potassium_lvl = int(val);
+
+    float moisture_lvl = analogRead(Pin1);
+
+    if ((moisture_lvl > moisture_target) && (nitrogen_lvl > n_target) && (phosphorous_lvl > p_target)(potassium_lvl > k_target))
+    {
+      moisture_control();
+    }
+    else if (nitrogen_lvl < n_target)
+    {
+      nitrogen_control()
+    }
+    else if (phosphorous_lvl < p_target)
+    {
+      phosphorous_control()
+    }
+    else if (potassium_lvl < k_target)
+    {
+      potassium_control_control()
+    }
+  }
+}
