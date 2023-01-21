@@ -69,7 +69,7 @@ void loop()
 }
 
 // nitrogen control
-void nitrogen_control()
+void n_control()
 {
   int nitrogenLvl = 0;
   do
@@ -98,7 +98,7 @@ void nitrogen_control()
 }
 
 // phosphorous control
-void phosphorous_control()
+void p_control()
 {
   int phosphorousLvl = 0;
   do
@@ -128,7 +128,7 @@ void phosphorous_control()
 }
 
 // potassium control
-void potassium_control()
+void k_control()
 {
   int potassiumLvl = 0;
   do
@@ -284,17 +284,17 @@ void select_controller(n_target, p_target, k_target, moisture_target)
     }
     else if (nitrogen_lvl < n_target)
     {
-      nitrogen_control();
+      n_control();
       delay(500);
     }
     else if (phosphorous_lvl < p_target)
     {
-      phosphorous_control();
+      p_control();
       delay(500);
     }
     else if (potassium_lvl < k_target)
     {
-      potassium_control_control();
+      k_control();
       delay(500);
     }
   }
