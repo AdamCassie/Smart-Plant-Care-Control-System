@@ -69,20 +69,20 @@ void loop()
 }
 
 // nitrogen control
-void n_control()
+void n_control(int n_target)
 {
   int nitrogenLvl = 0;
   do
   {
     byte val1;
-    val1 = nitrogen();
+    val1 = read_nitrogen();
     Serial.print(" = ");
     Serial.print(val1);
     Serial.println(" mg/kg");
     // may need to add a delay here
     // convert the nitrogen reading to an integer
     nitrogenLvl = int(val1);
-    if (nitrogenLvl >= 210)
+    if (nitrogenLvl >= n_target)
     {
       digitalWrite(IN2, HIGH); // turn pump off
       delay(500);
@@ -93,26 +93,26 @@ void n_control()
       delay(500);              // adjust this for dispensing nitrogen fluid
       digitalWrite(IN2, HIGH); // switch pump back off
     }
-  } while (nitrogenLvl < 210);
+  } while (nitrogenLvl < n_target);
   return;
 }
 
 // phosphorous control
-void p_control()
+void p_control(int p_target)
 {
   int phosphorousLvl = 0;
   do
   {
     byte val2;
     Serial.print("Phosphorous: ");
-    val2 = phosphorous();
+    val2 = read_phosphorous();
     Serial.print(" = ");
     Serial.print(val2);
     Serial.println(" mg/kg");
     // may need to add a delay here
     // convert the phosphorous reading to an integer
     phosphorousLvl = int(val2);
-    if (phosphorousLvl >= 210)
+    if (phosphorousLvl >= p_target)
     {
       digitalWrite(IN3, HIGH); // turn pump off
       delay(500);
@@ -123,26 +123,26 @@ void p_control()
       delay(500);              // adjust this for dispensing phosphorous fluid
       digitalWrite(IN3, HIGH); // switch pump back off
     }
-  } while (phosphorousLvl < 210);
+  } while (phosphorousLvl < p_target);
   return;
 }
 
 // potassium control
-void k_control()
+void k_control(int k_target)
 {
   int potassiumLvl = 0;
   do
   {
     byte val3;
     Serial.print("Potassium: ");
-    val3 = potassium();
+    val3 = read_potassium();
     Serial.print(" = ");
     Serial.print(val3);
     Serial.println(" mg/kg");
     // may need to add a delay here
     // convert the potassium reading to an integer
     potassiumLvl = int(val3);
-    if (potassiumLvl >= 220)
+    if (potassiumLvl >= k_target)
     {
       digitalWrite(IN1, HIGH); // turn pump off
       delay(500);
@@ -154,19 +154,19 @@ void k_control()
       digitalWrite(IN1, HIGH); // switch pump back off
     }
     delay(5000);
-  } while (potassiumLvl < 220);
+  } while (potassiumLvl < k_target);
   return;
 }
 
 // moisture control
-void moisture_control()
+void moisture_control(int moisture_target)
 {
   do
   {
     moistureLvl = analogRead(Pin1);
     Serial.println("Moisture level: ");
     Serial.println(moistureLvl);
-    if (moistureLvl >= 500)
+    if (moistureLvl >= moisture_target)
     {
       digitalWrite(IN2, LOW);  // turn pump for water on
       delay(500);              // adjust this delay to control dispensary of water
@@ -179,12 +179,12 @@ void moisture_control()
     }
     Serial.println();
     delay(2000); // not sure if this delay is necessary
-  } while (moistureLvl >= 500);
+  } while (moistureLvl >= moisture_target);
   return;
 }
 
 // read nitrogen levels from soil
-byte nitrogen()
+byte read_nitrogen()
 {
 
   mod.flushInput();
@@ -216,7 +216,7 @@ byte nitrogen()
 }
 
 // read phosphorous levels from soil
-byte phosphorous()
+byte read_phosphorous()
 {
   mod.flushInput();
   digitalWrite(DE, HIGH);
@@ -239,7 +239,7 @@ byte phosphorous()
 }
 
 // read potassium levels from soil
-byte potassium()
+byte read_potassium()
 {
   mod.flushInput();
   digitalWrite(DE, HIGH);
@@ -266,35 +266,35 @@ void select_controller(n_target, p_target, k_target, moisture_target)
   byte val;
   while (1)
   {
-    val = nitrogen();
+    val = read_nitrogen();
     int nitrogen_lvl = int(val);
 
-    val = phosphorous();
+    val = read_phosphorous();
     int phosphorous_lvl = int(val);
 
-    val = potassium();
+    val = read_potassium();
     int potassium_lvl = int(val);
 
     float moisture_lvl = analogRead(Pin1);
 
     if ((moisture_lvl > moisture_target) && (nitrogen_lvl >= n_target) && (phosphorous_lvl >= p_target)(potassium_lvl >= k_target))
     {
-      moisture_control();
+      moisture_control(moisture_target);
       delay(500);
     }
     else if (nitrogen_lvl < n_target)
     {
-      n_control();
+      n_control(n_target);
       delay(500);
     }
     else if (phosphorous_lvl < p_target)
     {
-      p_control();
+      p_control(p_target);
       delay(500);
     }
     else if (potassium_lvl < k_target)
     {
-      k_control();
+      k_control(k_target);
       delay(500);
     }
   }
