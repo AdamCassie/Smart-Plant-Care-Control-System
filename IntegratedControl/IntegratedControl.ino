@@ -61,14 +61,11 @@ void setup()
 
 void loop()
 {
-  // nitrogen_control();
-  // delay(500);
-  // phosphorous_control();
-  // delay(500);
-  potassium_control();
-  delay(500);
-  moisture_control();
-  delay(500); // can adjust this delay to alter the time cycle for controlling nutrients and moisture
+  int n_target = 255;
+  int p_target = 255;
+  int k_target = 255;
+  int moisture_target = 430;
+  select_controller(n_target, p_target, k_target, moisture_target);
 }
 
 // nitrogen control
@@ -280,21 +277,25 @@ void select_controller(n_target, p_target, k_target, moisture_target)
 
     float moisture_lvl = analogRead(Pin1);
 
-    if ((moisture_lvl > moisture_target) && (nitrogen_lvl > n_target) && (phosphorous_lvl > p_target)(potassium_lvl > k_target))
+    if ((moisture_lvl > moisture_target) && (nitrogen_lvl >= n_target) && (phosphorous_lvl >= p_target)(potassium_lvl >= k_target))
     {
       moisture_control();
+      delay(500);
     }
     else if (nitrogen_lvl < n_target)
     {
-      nitrogen_control()
+      nitrogen_control();
+      delay(500);
     }
     else if (phosphorous_lvl < p_target)
     {
-      phosphorous_control()
+      phosphorous_control();
+      delay(500);
     }
     else if (potassium_lvl < k_target)
     {
-      potassium_control_control()
+      potassium_control_control();
+      delay(500);
     }
   }
 }
