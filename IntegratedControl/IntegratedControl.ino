@@ -14,8 +14,8 @@ const byte pota[] = {0x01, 0x03, 0x00, 0x20, 0x00, 0x01, 0x85, 0xc0};
 byte values[11];
 AltSoftSerial mod;
 
-int IN1 = 2;
-int IN2 = 5;
+int IN1 = 5;
+int IN2 = 2;
 int IN3 = 3;
 int IN4 = 4;
 int Pin1 = A0;
@@ -41,30 +41,30 @@ void setup()
   pinMode(IN1, OUTPUT);
   pinMode(Pin1, INPUT);
   // IN1 in receive mode for relay
-  digitalWrite(IN1, LOW);
+  digitalWrite(IN1, HIGH);
   // set up pins for Nitrogen dispensary
   pinMode(IN2, OUTPUT);
   pinMode(Pin2, INPUT);
   // IN2 in receive mode for relay
-  digitalWrite(IN2, LOW);
+  digitalWrite(IN2, HIGH);
   // set up pins for Phosphorous dispensary
   pinMode(IN3, OUTPUT);
   pinMode(Pin3, INPUT);
   // IN3 in receive mode for relay
-  digitalWrite(IN3, LOW);
+  digitalWrite(IN3, HIGH);
   // set up pins for Potassium dispensary
   pinMode(IN4, OUTPUT);
   pinMode(Pin4, INPUT);
   // IN4 in receive mode for relay
-  digitalWrite(IN4, LOW);
+  digitalWrite(IN4, HIGH);
 }
 
 void loop()
 {
-  nitrogen_control();
-  delay(500);
-  phosphorous_control();
-  delay(500);
+  // nitrogen_control();
+  // delay(500);
+  // phosphorous_control();
+  // delay(500);
   potassium_control();
   delay(500);
   moisture_control();
@@ -145,18 +145,19 @@ void potassium_control()
     // may need to add a delay here
     // convert the potassium reading to an integer
     potassiumLvl = int(val3);
-    if (potassiumLvl >= 210)
+    if (potassiumLvl >= 220)
     {
-      digitalWrite(IN4, HIGH); // turn pump off
+      digitalWrite(IN1, HIGH); // turn pump off
       delay(500);
     }
     else
     {
-      digitalWrite(IN4, LOW);  // turn pump on
+      digitalWrite(IN1, LOW);  // turn pump on
       delay(500);              // adjust this for dispensing potassium fluid
-      digitalWrite(IN4, HIGH); // switch pump back off
+      digitalWrite(IN1, HIGH); // switch pump back off
     }
-  } while (potassiumLvl < 210);
+    delay(5000);
+  } while (potassiumLvl < 220);
   return;
 }
 
@@ -170,13 +171,13 @@ void moisture_control()
     Serial.println(moistureLvl);
     if (moistureLvl >= 500)
     {
-      digitalWrite(IN1, LOW);  // turn pump for water on
+      digitalWrite(IN2, LOW);  // turn pump for water on
       delay(500);              // adjust this delay to control dispensary of water
-      digitalWrite(IN1, HIGH); // turn pump for water back off
+      digitalWrite(IN2, HIGH); // turn pump for water back off
     }
     else
     {
-      digitalWrite(IN1, HIGH); // turn pump for water off
+      digitalWrite(IN2, HIGH); // turn pump for water off
       delay(500);
     }
     Serial.println();

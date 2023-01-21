@@ -54,7 +54,7 @@ void setup()
 
   // IN1 in receive mode for relay
   digitalWrite(IN2, HIGH);
-  digitalWrite(IN2, LOW);
+  //digitalWrite(IN2, LOW);
 }
 
 //   // Set up pins for moisture control problem
@@ -120,27 +120,27 @@ void loop()
 
   // if (moistureLvl >= 430)
   // {
-  //   digitalWrite(IN1, LOW); // turn pump for water on
+  //   digitalWrite(IN2, LOW); // turn pump for water on
   //   delay(1000);
-  //   digitalWrite(IN1, HIGH); // turn pump for water off
+  //   digitalWrite(IN2, HIGH); // turn pump for water off
+  // }
+  // else
+  // {
+  //   digitalWrite(IN2, HIGH); // turn pump for water off
+  //   delay(500);
+  // }
+
+  // if (val3 < 300)
+  // {
+  //   digitalWrite(IN2, LOW); // turn pump for water on
+  //   delay(250);
+  //   digitalWrite(IN2, HIGH); // turn pump for water off
   // }
   // else
   // {
   //   digitalWrite(IN1, HIGH); // turn pump for water off
   //   delay(500);
   // }
-
-  if (val3 < 300)
-  {
-    digitalWrite(IN1, LOW); // turn pump for water on
-    delay(250);
-    digitalWrite(IN1, HIGH); // turn pump for water off
-  }
-  else
-  {
-    digitalWrite(IN1, HIGH); // turn pump for water off
-    delay(500);
-  }
 
   Serial.println();
   // delay(2000);
