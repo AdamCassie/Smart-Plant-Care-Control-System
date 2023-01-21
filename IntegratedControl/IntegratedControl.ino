@@ -59,6 +59,46 @@ void setup()
   digitalWrite(IN4, HIGH);
 }
 
+// Change this to return the lowest value when there are multiple modes
+int mode(int a[], int n)
+{
+  int maxValue = 0, maxCount = 0, i, j;
+
+  for (i = 0; i < n; ++i)
+  {
+    int count = 0;
+
+    for (j = 0; j < n; ++j)
+    {
+      if (a[j] == a[i])
+        ++count;
+    }
+
+    if (count > maxCount)
+    {
+      maxCount = count;
+      maxValue = a[i];
+    }
+  }
+
+  return maxValue;
+}
+
+int compute_modal_moisture()
+{
+  // Round the values for the soil moisture to nearest 10
+  for (int i = 0; i < 5; ++i)
+  {
+    double temp = (double)moistureVals[i];
+    temp = round(temp / 10) * 10;
+    moistureVals[i] = (int)temp;
+  }
+
+  int result = mode(moistureVals, sizeof(moistureVals) / sizeof(moistureVals[0]));
+
+  return result;
+}
+
 void loop()
 {
   int n_target = 255;
