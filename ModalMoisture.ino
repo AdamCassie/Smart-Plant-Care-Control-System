@@ -27,8 +27,8 @@ const byte pota[] = {0x01, 0x03, 0x00, 0x20, 0x00, 0x01, 0x85, 0xc0};
 byte values[11];
 AltSoftSerial mod;
 
-int IN1 = 2;
-int IN2 = 5;
+int IN1 = 5;
+int IN2 = 2;
 int IN3 = 3;
 int IN4 = 4;
 int Pin1 = A0;
@@ -49,12 +49,12 @@ void setup()
   digitalWrite(RE, LOW);
 
   //   // Set up pins for moisture control problem
-  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
   pinMode(Pin1, INPUT);
 
   // IN1 in receive mode for relay
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN2, LOW);
 }
 
 //   // Set up pins for moisture control problem
