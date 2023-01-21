@@ -129,6 +129,19 @@ void loop()
   //   digitalWrite(IN1, HIGH); // turn pump for water off
   //   delay(500);
   // }
+
+  if (val3 < 300)
+  {
+    digitalWrite(IN1, LOW); // turn pump for water on
+    delay(250);
+    digitalWrite(IN1, HIGH); // turn pump for water off
+  }
+  else
+  {
+    digitalWrite(IN1, HIGH); // turn pump for water off
+    delay(500);
+  }
+
   Serial.println();
   // delay(2000);
 }
