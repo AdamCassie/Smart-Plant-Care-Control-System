@@ -261,6 +261,13 @@ byte read_potassium()
   return values[4];
 }
 
+int read_moisture()
+{
+  float moisture_lvl = analogRead(Pin1);
+  int result = int(moisture_lvl);
+  return result;
+}
+
 void select_controller(n_target, p_target, k_target, moisture_target)
 {
   byte val;
@@ -275,7 +282,7 @@ void select_controller(n_target, p_target, k_target, moisture_target)
     val = read_potassium();
     int potassium_lvl = int(val);
 
-    float moisture_lvl = analogRead(Pin1);
+    int moisture_lvl = read_moisture();
 
     if ((moisture_lvl > moisture_target) && (nitrogen_lvl >= n_target) && (phosphorous_lvl >= p_target)(potassium_lvl >= k_target))
     {
