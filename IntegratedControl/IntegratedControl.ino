@@ -23,7 +23,6 @@ int Pin1 = A0;
 int Pin2 = A1;
 int Pin3 = A2;
 int Pin4 = A3;
-float moistureLvl = 0;
 
 void setup()
 {
@@ -84,18 +83,17 @@ int mode(int a[], int n)
   return maxValue;
 }
 
-int compute_modal_moisture()
+int compute_modal_moisture(int a[], int n)
 {
   // Round the values for the soil moisture to nearest 10
-  int moistureVals[5];
-  for (int i = 0; i < 5; ++i)
+  for (int i = 0; i < n; ++i)
   {
-    double temp = (double)moistureVals[i];
+    double temp = (double)a[i];
     temp = round(temp / 10) * 10;
-    moistureVals[i] = (int)temp;
+    a[i] = (int)temp;
   }
 
-  int result = mode(moistureVals, sizeof(moistureVals) / sizeof(moistureVals[0]));
+  int result = mode(a, sizeof(a) / sizeof(a[0]));
 
   return result;
 }
@@ -205,11 +203,11 @@ void k_control(int k_target)
 // moisture control
 void moisture_control(int moisture_target)
 {
+  int moistureLvl;
   do
   {
-    moistureLvl = analogRead(Pin1);
-    Serial.println("Moisture level: ");
-    Serial.println(moistureLvl);
+    moistureLvl = read_moisture();
+
     if (moistureLvl >= moisture_target)
     {
       digitalWrite(IN2, LOW);  // turn pump for water on
@@ -308,6 +306,8 @@ byte read_potassium()
 
 int read_moisture()
 {
+  int moistureVals[5];
+
   for (int i = 0; i < 5; ++i)
   {
     moistureVals[i] = analogRead(Pin1);
@@ -316,13 +316,12 @@ int read_moisture()
     delay(5000);
   }
 
-  moistureLvl = compute_modal_moisture();
+  int moistureLvl = compute_modal_moisture(moistureVals, sizeof(moistureVals) / sizeof(moistureVals[0]));
 
   Serial.println("Modal moisture level: ");
   Serial.println(moistureLvl);
 
-  int result = int(moistureLvl);
-  return result;
+  return moistureLvl;
 }
 
 void select_controller(n_target, p_target, k_target, moisture_target)
