@@ -87,6 +87,7 @@ int mode(int a[], int n)
 int compute_modal_moisture()
 {
   // Round the values for the soil moisture to nearest 10
+  int moistureVals[5];
   for (int i = 0; i < 5; ++i)
   {
     double temp = (double)moistureVals[i];
