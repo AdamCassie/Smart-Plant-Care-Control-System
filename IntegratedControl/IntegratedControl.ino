@@ -311,38 +311,36 @@ int read_moisture()
 void select_controller(n_target, p_target, k_target, moisture_target)
 {
   byte val;
-  while (1)
+
+  val = read_nitrogen();
+  int nitrogen_lvl = int(val);
+
+  val = read_phosphorous();
+  int phosphorous_lvl = int(val);
+
+  val = read_potassium();
+  int potassium_lvl = int(val);
+
+  int moisture_lvl = read_moisture();
+
+  if ((moisture_lvl > moisture_target) && (nitrogen_lvl >= n_target) && (phosphorous_lvl >= p_target)(potassium_lvl >= k_target))
   {
-    val = read_nitrogen();
-    int nitrogen_lvl = int(val);
-
-    val = read_phosphorous();
-    int phosphorous_lvl = int(val);
-
-    val = read_potassium();
-    int potassium_lvl = int(val);
-
-    int moisture_lvl = read_moisture();
-
-    if ((moisture_lvl > moisture_target) && (nitrogen_lvl >= n_target) && (phosphorous_lvl >= p_target)(potassium_lvl >= k_target))
-    {
-      moisture_control(moisture_target);
-      delay(500);
-    }
-    else if (nitrogen_lvl < n_target)
-    {
-      n_control(n_target);
-      delay(500);
-    }
-    else if (phosphorous_lvl < p_target)
-    {
-      p_control(p_target);
-      delay(500);
-    }
-    else if (potassium_lvl < k_target)
-    {
-      k_control(k_target);
-      delay(500);
-    }
+    moisture_control(moisture_target);
+    delay(500);
+  }
+  else if (nitrogen_lvl < n_target)
+  {
+    n_control(n_target);
+    delay(500);
+  }
+  else if (phosphorous_lvl < p_target)
+  {
+    p_control(p_target);
+    delay(500);
+  }
+  else if (potassium_lvl < k_target)
+  {
+    k_control(k_target);
+    delay(500);
   }
 }
