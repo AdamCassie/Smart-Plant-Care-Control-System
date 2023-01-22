@@ -58,7 +58,6 @@ void setup()
   digitalWrite(IN4, HIGH);
 }
 
-// Change this to return the lowest value when there are multiple modes
 int mode(int a[], int n)
 {
   int maxValue = 0, maxCount = 0, i, j;
@@ -73,7 +72,7 @@ int mode(int a[], int n)
         ++count;
     }
 
-    if (count > maxCount)
+    if ((count > maxCount) || (count == maxCount && maxValue > a[i]))
     {
       maxCount = count;
       maxValue = a[i];
