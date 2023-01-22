@@ -316,7 +316,10 @@ int read_moisture()
     delay(5000);
   }
 
-  moistureLvl = modalMoisture();
+  moistureLvl = compute_modal_moisture();
+
+  Serial.println("Modal moisture level: ");
+  Serial.println(moistureLvl);
 
   int result = int(moistureLvl);
   return result;
