@@ -134,6 +134,7 @@ void n_control(int n_target)
       digitalWrite(IN2, HIGH); // switch pump back off
     }
   } while (nitrogenLvl < n_target);
+
   return;
 }
 
@@ -164,6 +165,7 @@ void p_control(int p_target)
       digitalWrite(IN3, HIGH); // switch pump back off
     }
   } while (phosphorousLvl < p_target);
+
   return;
 }
 
@@ -195,6 +197,7 @@ void k_control(int k_target)
     }
     delay(5000);
   } while (potassiumLvl < k_target);
+
   return;
 }
 
@@ -220,6 +223,7 @@ void moisture_control(int moisture_target)
     Serial.println();
     delay(2000); // not sure if this delay is necessary
   } while (moistureLvl >= moisture_target);
+
   return;
 }
 
@@ -303,8 +307,17 @@ byte read_potassium()
 
 int read_moisture()
 {
-  float moisture_lvl = analogRead(Pin1);
-  int result = int(moisture_lvl);
+  for (int i = 0; i < 5; ++i)
+  {
+    moistureVals[i] = analogRead(Pin1);
+    Serial.println("Moisture level: ");
+    Serial.println(moistureVals[i]);
+    delay(5000);
+  }
+
+  moistureLvl = modalMoisture();
+
+  int result = int(moistureLvl);
   return result;
 }
 
@@ -324,7 +337,7 @@ void select_controller(n_target, p_target, k_target, moisture_target)
   int moisture_lvl = read_moisture();
 
   if ((moisture_lvl > moisture_target) && (nitrogen_lvl >= n_target) && (phosphorous_lvl >= p_target)(potassium_lvl >= k_target))
-  {
+  { // Only moisture condition remains unsatified
     moisture_control(moisture_target);
     delay(500);
   }
