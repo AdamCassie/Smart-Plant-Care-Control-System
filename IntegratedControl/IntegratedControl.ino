@@ -343,18 +343,18 @@ void select_controller(n_target, p_target, k_target, moisture_target)
     moisture_control(moisture_target);
     delay(500);
   }
-  else if (nitrogen_lvl < n_target)
-  {
+  else if ((nitrogen_lvl < n_target) && (moisture_lvl > moisture_target))
+  { // Nitrogen condition not satisfied and plant needs moisture too
     n_control(n_target);
     delay(500);
   }
-  else if (phosphorous_lvl < p_target)
-  {
+  else if ((phosphorous_lvl < p_target) && (moisture_lvl > moisture_target))
+  { // Phosphorous condition not satisfied and plant needs moisture too
     p_control(p_target);
     delay(500);
   }
-  else if (potassium_lvl < k_target)
-  {
+  else if ((potassium_lvl < k_target) && (moisture_lvl > moisture_target))
+  { // Potassium condition not satisfied and plant needs moisture too
     k_control(k_target);
     delay(500);
   }
