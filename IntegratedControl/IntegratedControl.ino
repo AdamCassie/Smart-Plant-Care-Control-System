@@ -338,7 +338,7 @@ void select_controller(n_target, p_target, k_target, moisture_target)
 
   int moisture_lvl = read_moisture();
 
-  if ((moisture_lvl > moisture_target) && (nitrogen_lvl >= n_target) && (phosphorous_lvl >= p_target)(potassium_lvl >= k_target))
+  if ((moisture_lvl > moisture_target) && (nitrogen_lvl >= n_target) && (phosphorous_lvl >= p_target) && (potassium_lvl >= k_target))
   { // Only moisture condition remains unsatified
     moisture_control(moisture_target);
     delay(500);
