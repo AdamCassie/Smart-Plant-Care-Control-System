@@ -7,6 +7,12 @@
 #define RE 6
 #define DE 7
 
+// Pump burst times
+#define MOISTURE_DELAY 500
+#define N_DELAY 500
+#define P_DELAY 500
+#define K_DELAY 500
+
 const byte nitro[] = {0x01, 0x03, 0x00, 0x1e, 0x00, 0x01, 0xe4, 0x0c};
 const byte phos[] = {0x01, 0x03, 0x00, 0x1f, 0x00, 0x01, 0xb5, 0xcc};
 const byte pota[] = {0x01, 0x03, 0x00, 0x20, 0x00, 0x01, 0x85, 0xc0};
@@ -128,7 +134,7 @@ void n_control(int n_target)
     else
     {
       digitalWrite(IN2, LOW);  // turn pump on
-      delay(500);              // adjust this for dispensing nitrogen fluid
+      delay(N_DELAY);          // adjust this for dispensing nitrogen fluid
       digitalWrite(IN2, HIGH); // switch pump back off
     }
   } while (nitrogenLvl < n_target);
@@ -159,7 +165,7 @@ void p_control(int p_target)
     else
     {
       digitalWrite(IN3, LOW);  // turn pump on
-      delay(500);              // adjust this for dispensing phosphorous fluid
+      delay(P_DELAY);          // adjust this for dispensing phosphorous fluid
       digitalWrite(IN3, HIGH); // switch pump back off
     }
   } while (phosphorousLvl < p_target);
@@ -190,7 +196,7 @@ void k_control(int k_target)
     else
     {
       digitalWrite(IN1, LOW);  // turn pump on
-      delay(500);              // adjust this for dispensing potassium fluid
+      delay(K_DELAY);          // adjust this for dispensing potassium fluid
       digitalWrite(IN1, HIGH); // switch pump back off
     }
     delay(5000);
@@ -216,7 +222,7 @@ void moisture_control(int moisture_target)
     else
     {
       digitalWrite(IN2, HIGH); // turn pump for water off
-      delay(500);
+      delay(MOISTURE_DELAY);
     }
     Serial.println();
     delay(2000); // not sure if this delay is necessary
