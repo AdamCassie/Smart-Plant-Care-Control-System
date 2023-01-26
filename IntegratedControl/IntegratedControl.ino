@@ -36,6 +36,7 @@ typedef struct param
 {
   int value;
   int target;
+  int gradient;
   int delay;
 } Param;
 
@@ -52,9 +53,9 @@ typedef struct rank
 
 // Global control variables
 Param moisture = {0, 0, MOISTURE_DELAY};
-Param n = {0, 0, N_DELAY};
-Param p = {0, 0, P_DELAY};
-Param k = {0, 0, K_DELAY};
+Param n = {0, 0, 0, N_DELAY};
+Param p = {0, 0, 0, P_DELAY};
+Param k = {0, 0, 0, K_DELAY};
 
 // Global variable for priority of each plant nutrient
 Rank nutrient_priority = {'N', 'P', 'K', NULL, NULL, NULL};
@@ -468,7 +469,7 @@ int mode(int a[], int n)
   return maxValue;
 }
 
-// Round o the nearest 10 for the last five readings from the moisture sensor.
+// Round to the nearest 10 for the last five readings from the moisture sensor.
 // Return the mode after rounding
 int compute_modal_moisture(int a[], int n)
 {
@@ -483,4 +484,27 @@ int compute_modal_moisture(int a[], int n)
   int result = mode(a, sizeof(a) / sizeof(a[0]));
 
   return result;
+}
+
+// Loss function for gradient descent algorithm
+int compute_loss()
+{
+  int moisture_offset = moisture.target - moisture.value;
+  int n_offset = n.target - n.value;
+  int p_offset = p.target - p.value;
+  int k_offset = k.target - k.value;
+  int result = (moisture_offset ^ 2) + (n_offset ^ 2) + (p_offset ^ 2) + (k_offset ^ 2);
+  return result;
+}
+
+void compute_gradient()
+{
+  int moisture_offset = moisture.target - moisture.value;
+  int n_offset = n.target - n.value;
+  int p_offset = p.target - p.value;
+  int k_offset = k.target - k.value;
+  moisture.gradient = 2 * moisture.offset;
+  n.gradient = 2 * n.offset;
+  p.gradient = 2 * p.offset;
+  k.gradient = 2 * k.offset;
 }
