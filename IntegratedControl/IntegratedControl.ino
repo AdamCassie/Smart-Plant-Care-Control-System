@@ -329,7 +329,7 @@ int read_moisture()
   return moistureLvl;
 }
 
-void select_controller(n_target, p_target, k_target, moisture_target)
+void select_controller(int n_target, int p_target, int k_target, int moisture_target)
 {
   byte val;
 
