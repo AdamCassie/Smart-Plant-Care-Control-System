@@ -400,45 +400,60 @@ void compute_nutrient_priority()
   if ((n_offset >= p_offset) && (n_offset >= k_offset))
   {
     nutrient_priority.first = 'N';
+    nutrient_priority.first_ptr = &n;
     if (p_offset >= k_offset)
     {
       nutrient_priority.second = 'P';
       nutrient_priority.third = 'K';
+      nutrient_priority.second_ptr = &p;
+      nutrient_priority.third_ptr = &k;
     }
     else
     {
       nutrient_priority.second = 'K';
       nutrient_priority.third = 'P';
+      nutrient_priority.second_ptr = &k;
+      nutrient_priority.third_ptr = &p;
     }
   }
 
   else if ((p_offset >= n_offset) && (p_offset >= k_offset))
   {
     nutrient_priority.first = 'P';
+    nutrient_priority.first_ptr = &p;
     if (n_offset >= k_offset)
     {
       nutrient_priority.second = 'N';
       nutrient_priority.third = 'K';
+      nutrient_priority.second_ptr = &n;
+      nutrient_priority.third_ptr = &k;
     }
     else
     {
       nutrient_priority.second = 'K';
       nutrient_priority.third = 'N';
+      nutrient_priority.second_ptr = &k;
+      nutrient_priority.third_ptr = &n;
     }
   }
 
   else if ((k_offset >= n_offset) && (k_offset >= p_offset))
   {
     nutrient_priority.first = 'K';
+    nutrient_priority.first_ptr = &k;
     if (n_offset >= p_offset)
     {
       nutrient_priority.second = 'N';
       nutrient_priority.third = 'P';
+      nutrient_priority.second_ptr = &n;
+      nutrient_priority.third_ptr = &p;
     }
     else
     {
       nutrient_priority.second = 'P';
       nutrient_priority.third = 'N';
+      nutrient_priority.second_ptr = &p;
+      nutrient_priority.third_ptr = &n;
     }
   }
 }
