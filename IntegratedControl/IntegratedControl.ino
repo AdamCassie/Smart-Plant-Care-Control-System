@@ -20,6 +20,7 @@ const byte pota[] = {0x01, 0x03, 0x00, 0x20, 0x00, 0x01, 0x85, 0xc0};
 byte values[11];
 AltSoftSerial mod;
 
+// Port definitions
 int IN1 = 5;
 int IN2 = 2;
 int IN3 = 3;
@@ -29,6 +30,21 @@ int Pin1 = A0;
 int Pin2 = A1;
 int Pin3 = A2;
 int Pin4 = A3;
+
+// Structures for control parameter
+typedef struct param
+{
+  int value;
+  int target;
+  int rank;
+  int delay;
+} Param;
+
+// Global control variables
+Param moisture = {0, 0, 0, MOISTURE_DELAY};
+Param n = {0, 0, 1, N_DELAY};
+Param p = {0, 0, 2, P_DELAY};
+Param k = {0, 0, 3, K_DELAY};
 
 void setup()
 {
@@ -105,11 +121,11 @@ int compute_modal_moisture(int a[], int n)
 
 void loop()
 {
-  int n_target = 255;
-  int p_target = 255;
-  int k_target = 255;
-  int moisture_target = 430;
-  select_controller(n_target, p_target, k_target, moisture_target);
+  n.target = 255;
+  p.target = 255;
+  k.target = 255;
+  moisture.target = 430;
+  select_controller();
 }
 
 // nitrogen control
@@ -329,39 +345,43 @@ int read_moisture()
   return moistureLvl;
 }
 
-void select_controller(int n_target, int p_target, int k_target, int moisture_target)
+void select_controller()
 {
   byte val;
 
   val = read_nitrogen();
-  int nitrogen_lvl = int(val);
+  n.value = int(val);
 
   val = read_phosphorous();
-  int phosphorous_lvl = int(val);
+  p.value = int(val);
 
   val = read_potassium();
-  int potassium_lvl = int(val);
+  k.value = int(val);
 
-  int moisture_lvl = read_moisture();
+  moisture.value = read_moisture();
 
-  if ((moisture_lvl > moisture_target) && (nitrogen_lvl >= n_target) && (phosphorous_lvl >= p_target) && (potassium_lvl >= k_target))
+  if ((moisture.value > moisture.target) && (n.value >= n.target) && (p.value >= p.target) && (k.value >= k.target))
   { // Only moisture condition remains unsatified
-    moisture_control(moisture_target);
+    moisture_control(moisture.target);
     delay(500);
   }
-  else if ((nitrogen_lvl < n_target) && (moisture_lvl > moisture_target))
+  else if ((n.value < n.target) && (moisture.value > moisture.target))
   { // Nitrogen condition not satisfied and plant needs moisture too
-    n_control(n_target);
+    n_control(n.target);
     delay(500);
   }
-  else if ((phosphorous_lvl < p_target) && (moisture_lvl > moisture_target))
+  else if ((p.value < p.target) && (moisture.value > moisture.target))
   { // Phosphorous condition not satisfied and plant needs moisture too
-    p_control(p_target);
+    p_control(p.target);
     delay(500);
   }
-  else if ((potassium_lvl < k_target) && (moisture_lvl > moisture_target))
+  else if ((k.value < k.target) && (moisture.value > moisture.target))
   { // Potassium condition not satisfied and plant needs moisture too
-    k_control(k_target);
+    k_control(k.target);
     delay(500);
   }
 }
+
+// void compute_nutrient_priority(int n_offset, int p_offset, int k_offset)
+// {
+// }
