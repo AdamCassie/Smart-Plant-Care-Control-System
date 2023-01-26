@@ -222,27 +222,26 @@ void k_control(int k_target)
 }
 
 // moisture control
-void moisture_control(int moisture_target)
+void moisture_control()
 {
-  int moistureLvl;
   do
   {
-    moistureLvl = read_moisture();
+    moisture.value = read_moisture();
 
-    if (moistureLvl >= moisture_target)
+    if (moisture.value >= moisture.target)
     {
       digitalWrite(IN2, LOW);  // turn pump for water on
-      delay(500);              // adjust this delay to control dispensary of water
+      delay(moisture.delay);   // adjust this delay to control dispensary of water
       digitalWrite(IN2, HIGH); // turn pump for water back off
     }
     else
     {
       digitalWrite(IN2, HIGH); // turn pump for water off
-      delay(MOISTURE_DELAY);
+      delay(500);
     }
     Serial.println();
     delay(2000); // not sure if this delay is necessary
-  } while (moistureLvl >= moisture_target);
+  } while (moisture.value >= moisture.target);
 
   return;
 }
@@ -362,7 +361,7 @@ void select_controller()
 
   if ((moisture.value > moisture.target) && (n.value >= n.target) && (p.value >= p.target) && (k.value >= k.target))
   { // Only moisture condition remains unsatified
-    moisture_control(moisture.target);
+    moisture_control();
     delay(500);
   }
   else if ((n.value < n.target) && (moisture.value > moisture.target))
