@@ -359,6 +359,7 @@ int read_moisture()
   return moistureLvl;
 }
 
+// Read sensor values and activate pumps to optimize soil moisture and NPK
 void optimize_params()
 {
   byte val;
