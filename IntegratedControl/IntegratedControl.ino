@@ -138,7 +138,7 @@ void loop()
   p.target = 255;
   k.target = 255;
   moisture.target = 430;
-  select_controller();
+  optimize_params();
 }
 
 // nitrogen control
@@ -354,7 +354,7 @@ int read_moisture()
   return moistureLvl;
 }
 
-void select_controller()
+void optimize_params()
 {
   byte val;
 
@@ -376,17 +376,17 @@ void select_controller()
   }
   else if ((nutrient_priority.first_ptr->value < nutrient_priority.first_ptr->target) && (moisture.value > moisture.target))
   { // Nitrogen condition not satisfied and plant needs moisture too
-    n_control();
+    select_controller(nutrient_priority.first);
     delay(500);
   }
   else if ((nutrient_priority.second_ptr->value < nutrient_priority.second_ptr->target) && (moisture.value > moisture.target))
   { // Phosphorous condition not satisfied and plant needs moisture too
-    p_control();
+    select_controller(nutrient_priority.second);
     delay(500);
   }
   else if ((nutrient_priority.third_ptr->value < nutrient_priority.third_ptr->target) && (moisture.value > moisture.target))
   { // Potassium condition not satisfied and plant needs moisture too
-    k_control();
+    select_controller(nutrient_priority.third);
     delay(500);
   }
 }
@@ -455,5 +455,23 @@ void compute_nutrient_priority()
       nutrient_priority.second_ptr = &p;
       nutrient_priority.third_ptr = &n;
     }
+  }
+}
+
+void select_controller(char priority)
+{
+  switch (priority)
+  {
+  case 'N':
+    n_control();
+    break;
+
+  case 'P':
+    p_control();
+    break;
+
+  case 'K':
+    k_control();
+    break;
   }
 }
