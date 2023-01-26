@@ -93,48 +93,6 @@ void setup()
   digitalWrite(IN4, HIGH);
 }
 
-// Return the mode (take smallest value in the event of a tie)
-int mode(int a[], int n)
-{
-  int maxValue = 0, maxCount = 0, i, j;
-
-  for (i = 0; i < n; ++i)
-  {
-    int count = 0;
-
-    for (j = 0; j < n; ++j)
-    {
-      if (a[j] == a[i])
-        ++count;
-    }
-
-    if ((count > maxCount) || (count == maxCount && maxValue > a[i]))
-    {
-      maxCount = count;
-      maxValue = a[i];
-    }
-  }
-
-  return maxValue;
-}
-
-// Round o the nearest 10 for the last five readings from the moisture sensor.
-// Return the mode after rounding
-int compute_modal_moisture(int a[], int n)
-{
-  // Round the values for the soil moisture to nearest 10
-  for (int i = 0; i < n; ++i)
-  {
-    double temp = (double)a[i];
-    temp = round(temp / 10) * 10;
-    a[i] = (int)temp;
-  }
-
-  int result = mode(a, sizeof(a) / sizeof(a[0]));
-
-  return result;
-}
-
 // Main program loop
 void loop()
 {
@@ -483,4 +441,46 @@ void select_controller(char priority)
     k_control();
     break;
   }
+}
+
+// Return the mode (take smallest value in the event of a tie)
+int mode(int a[], int n)
+{
+  int maxValue = 0, maxCount = 0, i, j;
+
+  for (i = 0; i < n; ++i)
+  {
+    int count = 0;
+
+    for (j = 0; j < n; ++j)
+    {
+      if (a[j] == a[i])
+        ++count;
+    }
+
+    if ((count > maxCount) || (count == maxCount && maxValue > a[i]))
+    {
+      maxCount = count;
+      maxValue = a[i];
+    }
+  }
+
+  return maxValue;
+}
+
+// Round o the nearest 10 for the last five readings from the moisture sensor.
+// Return the mode after rounding
+int compute_modal_moisture(int a[], int n)
+{
+  // Round the values for the soil moisture to nearest 10
+  for (int i = 0; i < n; ++i)
+  {
+    double temp = (double)a[i];
+    temp = round(temp / 10) * 10;
+    a[i] = (int)temp;
+  }
+
+  int result = mode(a, sizeof(a) / sizeof(a[0]));
+
+  return result;
 }
