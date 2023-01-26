@@ -31,20 +31,30 @@ int Pin2 = A1;
 int Pin3 = A2;
 int Pin4 = A3;
 
-// Structures for control parameter
+// Structure for control parameter
 typedef struct param
 {
   int value;
   int target;
-  int rank;
   int delay;
 } Param;
 
+// Structure for ranking priority
+typedef struct rank
+{
+  char first;
+  char second;
+  char third;
+} Rank;
+
 // Global control variables
-Param moisture = {0, 0, 0, MOISTURE_DELAY};
-Param n = {0, 0, 1, N_DELAY};
-Param p = {0, 0, 2, P_DELAY};
-Param k = {0, 0, 3, K_DELAY};
+Param moisture = {0, 0, MOISTURE_DELAY};
+Param n = {0, 0, N_DELAY};
+Param p = {0, 0, P_DELAY};
+Param k = {0, 0, K_DELAY};
+
+// Global variable for priority of each plant nutrient
+Rank nutrient_priority = {'N', 'P', 'K'};
 
 void setup()
 {
@@ -378,6 +388,54 @@ void select_controller()
   }
 }
 
-// void compute_nutrient_priority(int n_offset, int p_offset, int k_offset)
-// {
-// }
+void compute_nutrient_priority()
+{
+  int n_offset = n.target - n.value;
+  int p_offset = p.target - p.value;
+  int k_offset = k.target - k.value;
+
+  if ((n_offset >= p_offset) && (n_offset >= k_offset))
+  {
+    nutrient_priority.first = 'N';
+    if (p_offset >= k_offset)
+    {
+      nutrient_priority.second = 'P';
+      nutrient_priority.third = 'K';
+    }
+    else
+    {
+      nutrient_priority.second = 'K';
+      nutrient_priority.third = 'P';
+    }
+  }
+
+  else if ((p_offset >= n_offset) && (p_offset >= k_offset))
+  {
+    nutrient_priority.first = 'P';
+    if (n_offset >= k_offset)
+    {
+      nutrient_priority.second = 'N';
+      nutrient_priority.third = 'K';
+    }
+    else
+    {
+      nutrient_priority.second = 'K';
+      nutrient_priority.third = 'N';
+    }
+  }
+
+  else if ((k_offset >= n_offset) && (k_offset >= p_offset))
+  {
+    nutrient_priority.first = 'K';
+    if (n_offset >= p_offset)
+    {
+      nutrient_priority.second = 'N';
+      nutrient_priority.third = 'P';
+    }
+    else
+    {
+      nutrient_priority.second = 'P';
+      nutrient_priority.third = 'N';
+    }
+  }
+}
