@@ -59,9 +59,9 @@ Param k = {0, 0, K_DELAY};
 // Global variable for priority of each plant nutrient
 Rank nutrient_priority = {'N', 'P', 'K', NULL, NULL, NULL};
 
+// Setup code to run once
 void setup()
 {
-  // put your setup code here, to run once:
   Serial.begin(4800);
   mod.begin(4800);
 
@@ -93,6 +93,7 @@ void setup()
   digitalWrite(IN4, HIGH);
 }
 
+// Return the mode (take smallest value in the event of a tie)
 int mode(int a[], int n)
 {
   int maxValue = 0, maxCount = 0, i, j;
@@ -117,6 +118,8 @@ int mode(int a[], int n)
   return maxValue;
 }
 
+// Round o the nearest 10 for the last five readings from the moisture sensor.
+// Return the mode after rounding
 int compute_modal_moisture(int a[], int n)
 {
   // Round the values for the soil moisture to nearest 10
@@ -132,6 +135,7 @@ int compute_modal_moisture(int a[], int n)
   return result;
 }
 
+// Main program loop
 void loop()
 {
   n.target = 255;
@@ -141,7 +145,7 @@ void loop()
   optimize_params();
 }
 
-// nitrogen control
+// Nitrogen control algorithm
 void n_control()
 {
   do
@@ -170,7 +174,7 @@ void n_control()
   return;
 }
 
-// phosphorous control
+// Phosphorous control algorithm
 void p_control()
 {
   do
@@ -200,7 +204,7 @@ void p_control()
   return;
 }
 
-// potassium control
+// Potassium control algorithm
 void k_control()
 {
   do
@@ -231,7 +235,7 @@ void k_control()
   return;
 }
 
-// moisture control
+// Moisture control
 void moisture_control()
 {
   do
@@ -256,7 +260,7 @@ void moisture_control()
   return;
 }
 
-// read nitrogen levels from soil
+// Read nitrogen levels from soil
 byte read_nitrogen()
 {
 
@@ -288,7 +292,7 @@ byte read_nitrogen()
   return values[4];
 }
 
-// read phosphorous levels from soil
+// Read phosphorous levels from soil
 byte read_phosphorous()
 {
   mod.flushInput();
@@ -311,7 +315,7 @@ byte read_phosphorous()
   return values[4];
 }
 
-// read potassium levels from soil
+// Read potassium levels from soil
 byte read_potassium()
 {
   mod.flushInput();
@@ -334,6 +338,7 @@ byte read_potassium()
   return values[4];
 }
 
+// Read mpisture levels from soil
 int read_moisture()
 {
   int moistureVals[5];
@@ -391,6 +396,8 @@ void optimize_params()
   }
 }
 
+// Rank the priority for each element based on how much more of the nutrient needs to be added
+// to reach the target. Highest priority assigned to nutrient with biggest offset from target
 void compute_nutrient_priority()
 {
   int n_offset = n.target - n.value;
@@ -458,6 +465,7 @@ void compute_nutrient_priority()
   }
 }
 
+// Select which nutrient controller to activate based on the priority level
 void select_controller(char priority)
 {
   switch (priority)
