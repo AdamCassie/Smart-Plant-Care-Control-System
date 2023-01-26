@@ -45,6 +45,9 @@ typedef struct rank
   char first;
   char second;
   char third;
+  Param *first_ptr;
+  Param *second_ptr;
+  Param *third_ptr;
 } Rank;
 
 // Global control variables
@@ -54,7 +57,7 @@ Param p = {0, 0, P_DELAY};
 Param k = {0, 0, K_DELAY};
 
 // Global variable for priority of each plant nutrient
-Rank nutrient_priority = {'N', 'P', 'K'};
+Rank nutrient_priority = {'N', 'P', 'K', NULL, NULL, NULL};
 
 void setup()
 {
