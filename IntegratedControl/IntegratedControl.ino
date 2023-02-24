@@ -69,29 +69,29 @@ void setup()
   pinMode(RE, OUTPUT);
   pinMode(DE, OUTPUT);
   // put RS-485 into receive mode
-  digitalWrite(DE, LOW);
-  digitalWrite(RE, LOW);
+  digitalWrite(DE, HIGH);
+  digitalWrite(RE, HIGH);
 
   // Set up pins for moisture control problem
   pinMode(IN1, OUTPUT);
   pinMode(Pin1, INPUT);
   // IN1 in receive mode for relay
-  digitalWrite(IN1, HIGH);
+  digitalWrite(IN1, LOW);
   // set up pins for Nitrogen dispensary
   pinMode(IN2, OUTPUT);
   pinMode(Pin2, INPUT);
   // IN2 in receive mode for relay
-  digitalWrite(IN2, HIGH);
+  digitalWrite(IN2, LOW);
   // set up pins for Phosphorous dispensary
   pinMode(IN3, OUTPUT);
   pinMode(Pin3, INPUT);
   // IN3 in receive mode for relay
-  digitalWrite(IN3, HIGH);
+  digitalWrite(IN3, LOW);
   // set up pins for Potassium dispensary
   pinMode(IN4, OUTPUT);
   pinMode(Pin4, INPUT);
   // IN4 in receive mode for relay
-  digitalWrite(IN4, HIGH);
+  digitalWrite(IN4, LOW);
 }
 
 // Main program loop
@@ -119,14 +119,14 @@ void n_control()
     n.value = int(val1);
     if (n.value >= n.target)
     {
-      digitalWrite(IN2, HIGH); // turn pump off
+      digitalWrite(IN2, LOW); // turn pump off
       delay(500);
     }
     else
     {
-      digitalWrite(IN2, LOW);  // turn pump on
+      digitalWrite(IN2, HIGH); // turn pump on
       delay(n.delay);          // adjust this for dispensing nitrogen fluid
-      digitalWrite(IN2, HIGH); // switch pump back off
+      digitalWrite(IN2, LOW);  // switch pump back off
     }
   } while (n.value < n.target);
 
@@ -149,14 +149,14 @@ void p_control()
     p.value = int(val2);
     if (p.value >= p.target)
     {
-      digitalWrite(IN3, HIGH); // turn pump off
+      digitalWrite(IN3, LOW); // turn pump off
       delay(500);
     }
     else
     {
-      digitalWrite(IN3, LOW);  // turn pump on
+      digitalWrite(IN3, HIGH); // turn pump on
       delay(p.delay);          // adjust this for dispensing phosphorous fluid
-      digitalWrite(IN3, HIGH); // switch pump back off
+      digitalWrite(IN3, LOW);  // switch pump back off
     }
   } while (p.value < p.target);
 
@@ -179,14 +179,14 @@ void k_control()
     k.value = int(val3);
     if (k.value >= k.target)
     {
-      digitalWrite(IN1, HIGH); // turn pump off
+      digitalWrite(IN1, LOW); // turn pump off
       delay(500);
     }
     else
     {
-      digitalWrite(IN1, LOW);  // turn pump on
+      digitalWrite(IN1, HIGH); // turn pump on
       delay(k.target);         // adjust this for dispensing potassium fluid
-      digitalWrite(IN1, HIGH); // switch pump back off
+      digitalWrite(IN1, LOW);  // switch pump back off
     }
     delay(5000);
   } while (k.value < k.target);
@@ -203,13 +203,13 @@ void moisture_control()
 
     if (moisture.value >= moisture.target)
     {
-      digitalWrite(IN2, LOW);  // turn pump for water on
+      digitalWrite(IN2, HIGH); // turn pump for water on
       delay(moisture.delay);   // adjust this delay to control dispensary of water
-      digitalWrite(IN2, HIGH); // turn pump for water back off
+      digitalWrite(IN2, LOW);  // turn pump for water back off
     }
     else
     {
-      digitalWrite(IN2, HIGH); // turn pump for water off
+      digitalWrite(IN2, LOW); // turn pump for water off
       delay(500);
     }
     Serial.println();
@@ -225,8 +225,8 @@ byte read_nitrogen()
 
   mod.flushInput();
   // switch RS-485 to transmit mode
-  digitalWrite(DE, HIGH);
-  digitalWrite(RE, HIGH);
+  digitalWrite(DE, LOW);
+  digitalWrite(RE, LOW);
   delay(100);
 
   // write out the message
@@ -237,8 +237,8 @@ byte read_nitrogen()
   mod.flush();
 
   // switching RS485 to receive mode
-  digitalWrite(DE, LOW);
-  digitalWrite(RE, LOW);
+  digitalWrite(DE, HIGH);
+  digitalWrite(RE, HIGH);
   // delay to allow response bytes to be received!
   delay(600);
   // read in the received bytes
@@ -255,14 +255,14 @@ byte read_nitrogen()
 byte read_phosphorous()
 {
   mod.flushInput();
-  digitalWrite(DE, HIGH);
-  digitalWrite(RE, HIGH);
+  digitalWrite(DE, LOW);
+  digitalWrite(RE, LOW);
   delay(100);
   for (uint8_t i = 0; i < sizeof(phos); i++)
     mod.write(phos[i]);
   mod.flush();
-  digitalWrite(DE, LOW);
-  digitalWrite(RE, LOW);
+  digitalWrite(DE, HIGH);
+  digitalWrite(RE, HIGH);
   // delay to allow response bytes to be received!
   delay(600);
   for (byte i = 0; i < 7; i++)
@@ -278,14 +278,14 @@ byte read_phosphorous()
 byte read_potassium()
 {
   mod.flushInput();
-  digitalWrite(DE, HIGH);
-  digitalWrite(RE, HIGH);
+  digitalWrite(DE, LOW);
+  digitalWrite(RE, LOW);
   delay(100);
   for (uint8_t i = 0; i < sizeof(pota); i++)
     mod.write(pota[i]);
   mod.flush();
-  digitalWrite(DE, LOW);
-  digitalWrite(RE, LOW);
+  digitalWrite(DE, HIGH);
+  digitalWrite(RE, HIGH);
   // delay to allow response bytes to be received!
   delay(600);
   for (byte i = 0; i < 7; i++)
