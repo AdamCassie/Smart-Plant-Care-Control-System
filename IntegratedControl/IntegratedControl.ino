@@ -8,10 +8,10 @@
 #define DE 7
 
 // Pump burst times
-#define MOISTURE_DELAY 5000
-#define N_DELAY 500
-#define P_DELAY 500
-#define K_DELAY 500
+#define MOISTURE_DELAY 1250
+#define N_DELAY 1250
+#define P_DELAY 1250
+#define K_DELAY 1250
 
 const byte nitro[] = {0x01, 0x03, 0x00, 0x1e, 0x00, 0x01, 0xe4, 0x0c};
 const byte phos[] = {0x01, 0x03, 0x00, 0x1f, 0x00, 0x01, 0xb5, 0xcc};
@@ -96,9 +96,9 @@ void setup()
 // Main program loop
 void loop()
 {
-  n.target = 255;
-  p.target = 255;
-  k.target = 255;
+  n.target = 55;
+  p.target = 5;
+  k.target = 5;
   moisture.target = 430;
   optimize_params();
 }
@@ -106,6 +106,7 @@ void loop()
 // Nitrogen control algorithm
 void n_control()
 {
+  Serial.println("\nNow performing Nitrogen control\n");
   do
   {
     byte val1;
@@ -135,6 +136,7 @@ void n_control()
 // Phosphorous control algorithm
 void p_control()
 {
+  Serial.println("\nNow performing Phosphorous control\n");
   do
   {
     byte val2;
@@ -165,6 +167,7 @@ void p_control()
 // Potassium control algorithm
 void k_control()
 {
+  Serial.println("\nNow performing Potassium control\n");
   do
   {
     byte val3;
@@ -196,6 +199,7 @@ void k_control()
 // Moisture control
 void moisture_control()
 {
+  Serial.println("\nNow performing Moisture control\n");
   do
   {
     moisture.value = read_moisture();
