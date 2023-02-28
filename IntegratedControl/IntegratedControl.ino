@@ -323,7 +323,7 @@ void optimize_params()
   byte val;
 
   val = read_nitrogen();
-  Serial.print("Nitrogen: ");
+  Serial.print("\nNitrogen: ");
   Serial.print(" = ");
   Serial.print(val);
   Serial.println(" mg/kg");
@@ -340,7 +340,7 @@ void optimize_params()
   Serial.print("Potassium: ");
   Serial.print(" = ");
   Serial.print(val);
-  Serial.println(" mg/kg");
+  Serial.println(" mg/kg\n");
   k.value = int(val);
 
   moisture.value = read_moisture();
@@ -492,7 +492,7 @@ int compute_modal_moisture(int a[], int n)
     a[i] = (int)temp;
   }
 
-  int result = mode(a, sizeof(a) / sizeof(a[0]));
+  int result = mode(a, n);
 
   return result;
 }
