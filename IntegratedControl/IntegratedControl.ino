@@ -68,8 +68,8 @@ void setup()
   pinMode(RE, OUTPUT);
   pinMode(DE, OUTPUT);
   // put RS-485 into receive mode
-  digitalWrite(DE, HIGH);
-  digitalWrite(RE, HIGH);
+  digitalWrite(DE, LOW);
+  digitalWrite(RE, LOW);
 
   // Set up pins for moisture control problem
   pinMode(IN1, OUTPUT);
@@ -224,8 +224,8 @@ byte read_nitrogen()
 
   mod.flushInput();
   // switch RS-485 to transmit mode
-  digitalWrite(DE, LOW);
-  digitalWrite(RE, LOW);
+  digitalWrite(DE, HIGH);
+  digitalWrite(RE, HIGH);
   delay(100);
 
   // write out the message
@@ -236,16 +236,16 @@ byte read_nitrogen()
   mod.flush();
 
   // switching RS485 to receive mode
-  digitalWrite(DE, HIGH);
-  digitalWrite(RE, HIGH);
+  digitalWrite(DE, LOW);
+  digitalWrite(RE, LOW);
   // delay to allow response bytes to be received!
   delay(600);
   // read in the received bytes
   for (byte i = 0; i < 7; i++)
   {
     values[i] = mod.read();
-    Serial.print(values[i], HEX);
-    Serial.print(' ');
+    // Serial.print(values[i], HEX);
+    // Serial.print(' ');
   }
   return values[4];
 }
@@ -254,21 +254,21 @@ byte read_nitrogen()
 byte read_phosphorous()
 {
   mod.flushInput();
-  digitalWrite(DE, LOW);
-  digitalWrite(RE, LOW);
+  digitalWrite(DE, HIGH);
+  digitalWrite(RE, HIGH);
   delay(100);
   for (uint8_t i = 0; i < sizeof(phos); i++)
     mod.write(phos[i]);
   mod.flush();
-  digitalWrite(DE, HIGH);
-  digitalWrite(RE, HIGH);
+  digitalWrite(DE, LOW);
+  digitalWrite(RE, LOW);
   // delay to allow response bytes to be received!
   delay(600);
   for (byte i = 0; i < 7; i++)
   {
     values[i] = mod.read();
-    Serial.print(values[i], HEX);
-    Serial.print(' ');
+    // Serial.print(values[i], HEX);
+    // Serial.print(' ');
   }
   return values[4];
 }
@@ -277,21 +277,21 @@ byte read_phosphorous()
 byte read_potassium()
 {
   mod.flushInput();
-  digitalWrite(DE, LOW);
-  digitalWrite(RE, LOW);
+  digitalWrite(DE, HIGH);
+  digitalWrite(RE, HIGH);
   delay(100);
   for (uint8_t i = 0; i < sizeof(pota); i++)
     mod.write(pota[i]);
   mod.flush();
-  digitalWrite(DE, HIGH);
-  digitalWrite(RE, HIGH);
+  digitalWrite(DE, LOW);
+  digitalWrite(RE, LOW);
   // delay to allow response bytes to be received!
   delay(600);
   for (byte i = 0; i < 7; i++)
   {
     values[i] = mod.read();
-    Serial.print(values[i], HEX);
-    Serial.print(' ');
+    // Serial.print(values[i], HEX);
+    // Serial.print(' ');
   }
   return values[4];
 }
@@ -323,12 +323,24 @@ void optimize_params()
   byte val;
 
   val = read_nitrogen();
+  Serial.print("Nitrogen: ");
+  Serial.print(" = ");
+  Serial.print(val);
+  Serial.println(" mg/kg");
   n.value = int(val);
 
   val = read_phosphorous();
+  Serial.print("Phosphorous: ");
+  Serial.print(" = ");
+  Serial.print(val);
+  Serial.println(" mg/kg");
   p.value = int(val);
 
   val = read_potassium();
+  Serial.print("Potassium: ");
+  Serial.print(" = ");
+  Serial.print(val);
+  Serial.println(" mg/kg");
   k.value = int(val);
 
   moisture.value = read_moisture();
