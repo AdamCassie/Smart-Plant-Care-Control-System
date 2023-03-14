@@ -107,103 +107,52 @@ void loop()
 // Nitrogen control algorithm
 void n_control()
 {
-  Serial.println("\nNow performing Nitrogen control\n");
-  while (n.value < n.target)
-  {
-    Serial.println("\nNow pulsing the N pump\n");
-    digitalWrite(IN3, HIGH); // turn pump on
-    delay(n.delay);          // adjust this for dispensing nitrogen fluid
-    digitalWrite(IN3, LOW);  // switch pump back off
+  Serial.println("\nNow pulsing the N pump\n");
+  digitalWrite(IN3, HIGH); // turn pump on
+  delay(n.delay);          // adjust this for dispensing nitrogen fluid
+  digitalWrite(IN3, LOW);  // switch pump back off
 
-    Serial.println();
-    delay(30000);
-
-    // Update Nitrogen value
-    byte val1;
-    Serial.print("Nitrogen value: ");
-    val1 = read_nitrogen();
-    Serial.print(" = ");
-    Serial.print(val1);
-    Serial.println(" mg/kg");
-    // may need to add a delay here
-    // convert the nitrogen reading to an integer
-    n.value = int(val1);
-  }
+  Serial.println();
+  delay(30000);
   return;
 }
 
 // Phosphorous control algorithm
 void p_control()
 {
-  Serial.println("\nNow performing Phosphorous control\n");
-  while (p.value < p.target)
-  {
-    Serial.println("\nNow pulsing the P pump\n");
-    digitalWrite(IN4, HIGH); // turn pump on
-    delay(p.delay);          // adjust this for dispensing phosphorous fluid
-    digitalWrite(IN4, LOW);  // switch pump back off
+  Serial.println("\nNow pulsing the P pump\n");
+  digitalWrite(IN4, HIGH); // turn pump on
+  delay(p.delay);          // adjust this for dispensing phosphorous fluid
+  digitalWrite(IN4, LOW);  // switch pump back off
 
-    Serial.println();
-    delay(30000); // not sure if this delay is necessary
-
-    // Update Phosphorous value
-    byte val2;
-    Serial.print("Phosphorous value: ");
-    val2 = read_phosphorous();
-    Serial.print(" = ");
-    Serial.print(val2);
-    Serial.println(" mg/kg");
-    // may need to add a delay here
-    // convert the phosphorous reading to an integer
-    p.value = int(val2);
-  }
+  Serial.println();
+  delay(30000); // not sure if this delay is necessary
   return;
 }
 
 // Potassium control algorithm
 void k_control()
 {
-  Serial.println("\nNow performing Potassium control\n");
-  while (k.value < k.target)
-  {
-    Serial.println("\nNow pulsing the K pump\n");
-    digitalWrite(IN1, HIGH); // turn pump on
-    delay(k.delay);          // adjust this for dispensing potassium fluid
-    digitalWrite(IN1, LOW);  // switch pump back off
+  Serial.println("\nNow pulsing the K pump\n");
+  digitalWrite(IN1, HIGH); // turn pump on
+  delay(k.delay);          // adjust this for dispensing potassium fluid
+  digitalWrite(IN1, LOW);  // switch pump back off
 
-    Serial.println();
-    delay(30000); // not sure if this delay is necessary
-
-    // Update Potassium value
-    byte val3;
-    Serial.print("Potassium value: ");
-    val3 = read_potassium();
-    Serial.print(" = ");
-    Serial.print(val3);
-    Serial.println(" mg/kg");
-    // may need to add a delay here
-    // convert the potassium reading to an integer
-    k.value = int(val3);
-  }
+  Serial.println();
+  delay(30000); // not sure if this delay is necessary
   return;
 }
 
 // Moisture control
 void moisture_control()
 {
-  Serial.println("\nNow performing Moisture control\n");
-  while (moisture.value >= moisture.target)
-  {
-    Serial.println("\nNow pulsing the moisture pump\n");
-    digitalWrite(IN2, HIGH); // turn pump for water on
-    delay(moisture.delay);   // adjust this delay to control dispensary of water
-    digitalWrite(IN2, LOW);  // turn pump for water back off
+  Serial.println("\nNow pulsing the moisture pump\n");
+  digitalWrite(IN2, HIGH); // turn pump for water on
+  delay(moisture.delay);   // adjust this delay to control dispensary of water
+  digitalWrite(IN2, LOW);  // turn pump for water back off
 
-    Serial.println();
-    delay(5000); // not sure if this delay is necessary
-    moisture.value = read_moisture();
-  }
-
+  Serial.println();
+  delay(30000); // not sure if this delay is necessary
   return;
 }
 
