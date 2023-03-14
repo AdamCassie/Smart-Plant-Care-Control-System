@@ -57,7 +57,7 @@ Param p = {0, 0, P_DELAY};
 Param k = {0, 0, K_DELAY};
 
 // Global variable for priority of each plant nutrient
-Rank nutrient_priority = {'N', 'P', 'K', NULL, NULL, NULL};
+Rank nutrient_priority = {'N', 'P', 'K', &n, &p, &k};
 
 // Setup code to run once
 void setup()
@@ -96,20 +96,31 @@ void setup()
 // Main program loop
 void loop()
 {
-  n.target = 55;
-  p.target = 5;
-  k.target = 5;
+  n.target = 50;
+  p.target = 150;
+  k.target = 205;
   moisture.target = 430;
   optimize_params();
+  printf("%c\n", nutrient_priority.first_ptr->value);
 }
 
 // Nitrogen control algorithm
 void n_control()
 {
   Serial.println("\nNow performing Nitrogen control\n");
-  do
+  while (n.value < n.target)
   {
+    Serial.println("\nNow pulsing the N pump\n");
+    digitalWrite(IN3, HIGH); // turn pump on
+    delay(n.delay);          // adjust this for dispensing nitrogen fluid
+    digitalWrite(IN3, LOW);  // switch pump back off
+
+    Serial.println();
+    delay(30000);
+
+    // Update Nitrogen value
     byte val1;
+    Serial.print("Nitrogen value: ");
     val1 = read_nitrogen();
     Serial.print(" = ");
     Serial.print(val1);
@@ -117,19 +128,7 @@ void n_control()
     // may need to add a delay here
     // convert the nitrogen reading to an integer
     n.value = int(val1);
-    if (n.value >= n.target)
-    {
-      digitalWrite(IN2, LOW); // turn pump off
-      delay(500);
-    }
-    else
-    {
-      digitalWrite(IN2, HIGH); // turn pump on
-      delay(n.delay);          // adjust this for dispensing nitrogen fluid
-      digitalWrite(IN2, LOW);  // switch pump back off
-    }
-  } while (n.value < n.target);
-
+  }
   return;
 }
 
@@ -137,10 +136,19 @@ void n_control()
 void p_control()
 {
   Serial.println("\nNow performing Phosphorous control\n");
-  do
+  while (p.value < p.target)
   {
+    Serial.println("\nNow pulsing the P pump\n");
+    digitalWrite(IN4, HIGH); // turn pump on
+    delay(p.delay);          // adjust this for dispensing phosphorous fluid
+    digitalWrite(IN4, LOW);  // switch pump back off
+
+    Serial.println();
+    delay(30000); // not sure if this delay is necessary
+
+    // Update Phosphorous value
     byte val2;
-    Serial.print("Phosphorous: ");
+    Serial.print("Phosphorous value: ");
     val2 = read_phosphorous();
     Serial.print(" = ");
     Serial.print(val2);
@@ -148,19 +156,7 @@ void p_control()
     // may need to add a delay here
     // convert the phosphorous reading to an integer
     p.value = int(val2);
-    if (p.value >= p.target)
-    {
-      digitalWrite(IN3, LOW); // turn pump off
-      delay(500);
-    }
-    else
-    {
-      digitalWrite(IN3, HIGH); // turn pump on
-      delay(p.delay);          // adjust this for dispensing phosphorous fluid
-      digitalWrite(IN3, LOW);  // switch pump back off
-    }
-  } while (p.value < p.target);
-
+  }
   return;
 }
 
@@ -168,10 +164,19 @@ void p_control()
 void k_control()
 {
   Serial.println("\nNow performing Potassium control\n");
-  do
+  while (k.value < k.target)
   {
+    Serial.println("\nNow pulsing the K pump\n");
+    digitalWrite(IN1, HIGH); // turn pump on
+    delay(k.delay);          // adjust this for dispensing potassium fluid
+    digitalWrite(IN1, LOW);  // switch pump back off
+
+    Serial.println();
+    delay(30000); // not sure if this delay is necessary
+
+    // Update Potassium value
     byte val3;
-    Serial.print("Potassium: ");
+    Serial.print("Potassium value: ");
     val3 = read_potassium();
     Serial.print(" = ");
     Serial.print(val3);
@@ -179,20 +184,7 @@ void k_control()
     // may need to add a delay here
     // convert the potassium reading to an integer
     k.value = int(val3);
-    if (k.value >= k.target)
-    {
-      digitalWrite(IN1, LOW); // turn pump off
-      delay(500);
-    }
-    else
-    {
-      digitalWrite(IN1, HIGH); // turn pump on
-      delay(k.target);         // adjust this for dispensing potassium fluid
-      digitalWrite(IN1, LOW);  // switch pump back off
-    }
-    delay(5000);
-  } while (k.value < k.target);
-
+  }
   return;
 }
 
@@ -200,24 +192,17 @@ void k_control()
 void moisture_control()
 {
   Serial.println("\nNow performing Moisture control\n");
-  do
+  while (moisture.value >= moisture.target)
   {
-    moisture.value = read_moisture();
+    Serial.println("\nNow pulsing the moisture pump\n");
+    digitalWrite(IN2, HIGH); // turn pump for water on
+    delay(moisture.delay);   // adjust this delay to control dispensary of water
+    digitalWrite(IN2, LOW);  // turn pump for water back off
 
-    if (moisture.value >= moisture.target)
-    {
-      digitalWrite(IN2, HIGH); // turn pump for water on
-      delay(moisture.delay);   // adjust this delay to control dispensary of water
-      digitalWrite(IN2, LOW);  // turn pump for water back off
-    }
-    else
-    {
-      digitalWrite(IN2, LOW); // turn pump for water off
-      delay(500);
-    }
     Serial.println();
-    delay(2000); // not sure if this delay is necessary
-  } while (moisture.value >= moisture.target);
+    delay(5000); // not sure if this delay is necessary
+    moisture.value = read_moisture();
+  }
 
   return;
 }
@@ -327,25 +312,27 @@ void optimize_params()
   byte val;
 
   val = read_nitrogen();
-  Serial.print("\nNitrogen: ");
+  Serial.print("\nNitrogen value: ");
   Serial.print(" = ");
   Serial.print(val);
   Serial.println(" mg/kg");
   n.value = int(val);
 
   val = read_phosphorous();
-  Serial.print("Phosphorous: ");
+  Serial.print("Phosphorous value: ");
   Serial.print(" = ");
   Serial.print(val);
   Serial.println(" mg/kg");
   p.value = int(val);
 
   val = read_potassium();
-  Serial.print("Potassium: ");
+  Serial.print("Potassium value: ");
   Serial.print(" = ");
   Serial.print(val);
   Serial.println(" mg/kg\n");
   k.value = int(val);
+
+  compute_nutrient_priority();
 
   moisture.value = read_moisture();
 
@@ -378,6 +365,8 @@ void compute_nutrient_priority()
   int n_offset = n.target - n.value;
   int p_offset = p.target - p.value;
   int k_offset = k.target - k.value;
+
+  print_nutrient_offset(n_offset, p_offset, k_offset);
 
   if ((n_offset >= p_offset) && (n_offset >= k_offset))
   {
@@ -499,6 +488,20 @@ int compute_modal_moisture(int a[], int n)
   int result = mode(a, n);
 
   return result;
+}
+
+void print_nutrient_offset(int n_offset, int p_offset, int k_offset)
+{
+  Serial.print("Nitrogen offset: ");
+  Serial.print(" = ");
+  Serial.println(n_offset);
+  Serial.print("Phosphorous offset: ");
+  Serial.print(" = ");
+  Serial.println(p_offset);
+  Serial.print("Potassium offset: ");
+  Serial.print(" = ");
+  Serial.println(k_offset);
+  Serial.println("");
 }
 
 // // Loss function for gradient descent algorithm
