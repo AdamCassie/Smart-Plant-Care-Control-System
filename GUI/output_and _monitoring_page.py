@@ -1,10 +1,11 @@
 import PySimpleGUI as sg
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import start_up_page
 
 
-def output_and_monitoring():
+def output_and_monitoring_page():
     # set a colour theme for window
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
@@ -77,7 +78,8 @@ def output_and_monitoring():
 
     # button to close the window
     button_layout = [[sg.Button('Close')]]
-
+    # button to return to home
+    button_home = [sg.Button('Return to Home')]
     # getting the screen size to make the window fullscreen
     screen_width, screen_height = sg.Window.get_screen_size()
 
@@ -85,7 +87,8 @@ def output_and_monitoring():
     layout = [[sg.Column(graph_layout_1, size=(700, screen_height)),
                sg.Column([], size=((screen_width - 2000) // 2, screen_height)),
                sg.Column(graph_layout_2, size=(700, screen_height)),
-               sg.Column(button_layout)]
+               sg.Column(button_layout),
+               sg.Column(button_home)]
               ]
 
     # Create the window
@@ -118,6 +121,10 @@ def output_and_monitoring():
         event, values = window.read()
         # close the window
         if event == sg.WINDOW_CLOSED or event == 'Close':
+            break
+        if event == 'Return To Home':
+            window.close()
+            start_up_page.start_up_page()
             break
 
     window.close()

@@ -1,10 +1,11 @@
 import PySimpleGUI as sg                        # Part 1 - The import
+import registration_page
+import start_up_page
 
 
 def selection_page():
     # set a colour theme for window
     sg.theme('LightGrey')
-    #sg.theme_background_color('Black')
     sg.theme_button_color('Grey')
 
     # Get screen resolution
@@ -65,14 +66,15 @@ def selection_page():
         elif event == "-OPTION2-":
             window["-OUTPUT2-"].update(value=values["-OPTION2-"])
         elif event == 'Cancel Plant Selection':
-            window.close();
-            sg.UserSettings().add('active_window', 'window_home')
+            window.close()
+            start_up_page.start_up_page()
+            break
+        elif event == 'Go to Plant Registration':
+            window.close()
+            registration_page.registration_page()
+            break
+
 
         # query the database for the Nitrogen Potassium and Phosphorous levels and print them to the screen
-
-        # Finish up by removing from the screen
-        if event == 'Cancel Plant Selection' or event == 'Confirm Control Parameters Selection':
-            window.close()                                  # Part 5 - Close the Window
-
 
     window.close()
