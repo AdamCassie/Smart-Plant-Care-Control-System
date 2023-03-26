@@ -1,6 +1,6 @@
 import PySimpleGUI as sg                        # Part 1 - The import
 import selection_page
-
+import output
 
 def start_up_page():
     sg.theme('LightGrey')
@@ -43,6 +43,8 @@ def start_up_page():
         # if select monitoring page go to the monitoring page
         elif event == 'Monitor Current Plant':
             window.close()
+            output.output()
+            break
 
 
     # Finish up by removing from the screen

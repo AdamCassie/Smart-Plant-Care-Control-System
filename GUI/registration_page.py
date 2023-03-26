@@ -1,6 +1,8 @@
 import PySimpleGUI as sg
 import selection_page
 import start_up_page
+import output
+
 
 def registration_page():
     # set a colour theme for window
@@ -53,7 +55,15 @@ def registration_page():
                     print('invalid input')
                     invalid = True
                     break
-            break
+            if(invalid):
+                break
+            #push valid values
+            # go to monitoring page
+            if (not(invalid)):
+                window.close()
+                output.output()
+                break
+
 
 
         elif event == 'Cancel':

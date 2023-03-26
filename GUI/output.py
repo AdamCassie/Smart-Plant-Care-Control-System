@@ -5,7 +5,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import start_up_page
 
 
-def output_and_monitoring_page():
+def output():
     # set a colour theme for window
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
@@ -77,9 +77,8 @@ def output_and_monitoring_page():
                       [sg.Graph((600, 400), (0, 0), (600, 400), key='-K-')]]
 
     # button to close the window
-    button_layout = [[sg.Button('Close')]]
-    # button to return to home
-    button_home = [sg.Button('Return to Home')]
+    button_layout = [[sg.Button('Return To Home')]]
+
     # getting the screen size to make the window fullscreen
     screen_width, screen_height = sg.Window.get_screen_size()
 
@@ -87,8 +86,7 @@ def output_and_monitoring_page():
     layout = [[sg.Column(graph_layout_1, size=(700, screen_height)),
                sg.Column([], size=((screen_width - 2000) // 2, screen_height)),
                sg.Column(graph_layout_2, size=(700, screen_height)),
-               sg.Column(button_layout),
-               sg.Column(button_home)]
+               sg.Column(button_layout)]
               ]
 
     # Create the window
@@ -120,7 +118,7 @@ def output_and_monitoring_page():
     while True:
         event, values = window.read()
         # close the window
-        if event == sg.WINDOW_CLOSED or event == 'Close':
+        if event == sg.WINDOW_CLOSED:
             break
         if event == 'Return To Home':
             window.close()

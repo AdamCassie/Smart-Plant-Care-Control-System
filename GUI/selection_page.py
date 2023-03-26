@@ -1,4 +1,5 @@
 import PySimpleGUI as sg                        # Part 1 - The import
+import output
 import registration_page
 import start_up_page
 
@@ -73,7 +74,10 @@ def selection_page():
             window.close()
             registration_page.registration_page()
             break
-
+        elif event == 'Confirm Control Parameters Selection':
+            window.close()
+            output.output()
+            break
 
         # query the database for the Nitrogen Potassium and Phosphorous levels and print them to the screen
 
