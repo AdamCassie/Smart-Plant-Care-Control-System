@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 
+
 # Create the PySimpleGUI layout
 layout = [
     [sg.Button('Close')]
