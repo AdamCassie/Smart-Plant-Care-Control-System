@@ -40,11 +40,11 @@ class PlantParam:
         Return True if the connection was made successfully, False otherwise.
         I.e., do NOT throw an error if making the connection fails.
 
-        >>> ww = PlantParam()
-        >>> ww.connect("csc343h-cassiead", "cassiead", "")
+        >>> pp = PlantParam()
+        >>> pp.connect("csc343h-cassiead", "cassiead", "")
         True
         >>> # In this example, the connection cannot be made.
-        >>> ww.connect("invalid", "nonsense", "incorrect")
+        >>> pp.connect("invalid", "nonsense", "incorrect")
         False
         """
         try:
@@ -62,10 +62,10 @@ class PlantParam:
         Return True if closing the connection was successful, False otherwise.
         I.e., do NOT throw an error if closing the connection failed.
 
-        >>> ww = PlantParam()
-        >>> ww.connect("csc343h-cassiead", "cassiead", "")
+        >>> pp = PlantParam()
+        >>> pp.connect("csc343h-cassiead", "cassiead", "")
         True
-        >>> ww.disconnect()
+        >>> pp.disconnect()
         True
         """
         try:
@@ -106,65 +106,63 @@ class PlantParam:
             # raise ex
             return 0
 
+    def add_plant_params(self, plant_type: str, moisture_target: int, n_target: int, p_target, k_target: int) -> bool:
+        """Given the type of a plant <plant_type>, check if it's already registered
+        in the database. If not, then add it to the database along with its ideal
+        parameter values. Return True if the plant is added, else return False.
+        """
+        try:
+            cur = self.connection.cursor()
 
-def add_plant_params(self, plant_type: str, moisture_target: int, n_target: int, p_target, k_target: int) -> bool:
-    """Given the type of a plant <plant_type>, check if it's already registered
-    in the database. If not, then add it to the database along with its ideal
-    parameter values. Return True if the plant is added, else return False.
-    """
-    try:
-        cur = self.connection.cursor()
+            cur.execute(
+                'SELECT * FROM IdealPlantParams WHERE plantType=%s;', [plant_type])
 
-        cur.execute(
-            'SELECT * FROM IdealPlantParams WHERE plantType=%s;', [plant_type])
+            if cur.rowcount > 0:
+                print(
+                    f"Plant type {plant_type} already registered in the database.")
+                cur.close()
+                return False
 
-        if cur.rowcount > 0:
-            print(
-                f"Plant type {plant_type} already registered in the database.")
+            cur.execute(
+                'INSERT INTO IdealPlantParams VALUES (%s, %s, %s, %s, %s);', [plant_type, moisture_target, n_target, p_target, k_target])
+            self.connection.commit()
             cur.close()
-            return False
+            return True
 
-        cur.execute(
-            'INSERT INTO IdealPlantParams VALUES (%s, %s, %s, %s, %s);', [plant_type, moisture_target, n_target, p_target, k_target])
-        self.connection.commit()
-        cur.close()
-        return True
+        except pg.Error as ex:
+            # You may find it helpful to uncomment this line while debugging,
+            # as it will show you all the details of the error that occurred:
+            # raise ex
+            return 0
 
-    except pg.Error as ex:
-        # You may find it helpful to uncomment this line while debugging,
-        # as it will show you all the details of the error that occurred:
-        # raise ex
-        return 0
+    def update_plant_params(self, plant_type: str, moisture_target: int, n_target: int, p_target, k_target: int) -> bool:
+        """Given the type of a plant <plant_type>, check if it's already registered
+        in the database. If it is, then update its ideal parameter values.
+        Return True if the plant parameters are updated, else return False.
+        """
+        try:
+            cur = self.connection.cursor()
 
+            cur.execute(
+                'SELECT * FROM IdealPlantParams WHERE plantType=%s;', [plant_type])
 
-def update_plant_params(self, plant_type: str, moisture_target: int, n_target: int, p_target, k_target: int) -> bool:
-    """Given the type of a plant <plant_type>, check if it's already registered
-    in the database. If it is, then update its ideal parameter values.
-    Return True if the plant parameters are updated, else return False.
-    """
-    try:
-        cur = self.connection.cursor()
+            if cur.rowcount == 0:
+                print(
+                    f"Plant type {plant_type} not found in the database.")
+                cur.close()
+                return False
 
-        cur.execute(
-            'SELECT * FROM IdealPlantParams WHERE plantType=%s;', [plant_type])
-
-        if cur.rowcount == 0:
-            print(
-                f"Plant type {plant_type} not found in the database.")
+            cur.execute(
+                'UPDATE IdealPlantParams SET moistureTarget=%s, nitrogenTarget=%s, phosphorousTarget=%s, potassiumTarget=%s WHERE plantType=%s;', [moisture_target, n_target, p_target, k_target, plant_type])
+            self.connection.commit()
             cur.close()
-            return False
+            return True
 
-        cur.execute(
-            'UPDATE IdealPlantParams SET moistureTarget=%s, nitrogenTarget=%s, phosphorousTarget=%s, potassiumTarget=%s WHERE plantType=%s;', [moisture_target, n_target, p_target, k_target, plant_type])
-        self.connection.commit()
-        cur.close()
-        return True
-
-    except pg.Error as ex:
-        # You may find it helpful to uncomment this line while debugging,
-        # as it will show you all the details of the error that occurred:
-        # raise ex
-        return 0
+        except pg.Error as ex:
+            # You may find it helpful to uncomment this line while debugging,
+            # as it will show you all the details of the error that occurred:
+            # raise ex
+            return 0
 
 
 def setup(dbname: str, username: str, password: str, file_path: str) -> None:
@@ -204,7 +202,7 @@ def setup(dbname: str, username: str, password: str, file_path: str) -> None:
 
 def test_preliminary() -> None:
     """Test preliminary aspects of the PlantParam methods."""
-    ww = PlantParam()
+    pp = PlantParam()
     qf = None
     try:
         # TODO: Change the values of the following variables to connect to your
@@ -213,7 +211,7 @@ def test_preliminary() -> None:
         user = 'cassiead'
         password = ''
 
-        connected = ww.connect(dbname, user, password)
+        connected = pp.connect(dbname, user, password)
 
         # The following is an assert statement. It checks that the value for
         # connected is True. The message after the comma will be printed if
@@ -229,19 +227,23 @@ def test_preliminary() -> None:
         # more sample data files and use the same function to load them into
         # your database.
         # Note: make sure that the schema and data files are in the same
-        # directory (folder) as your a2.py file.
+        # directory (folder) as your query_plant_param.py file.
         setup(dbname, user, password, './plant_param_data.sql')
 
         # --------------------- Testing get_plant_params  ------------------------#
-
-        # -------------------- Testing update_plant_params  ------------------------#
-
-        # ----------------- Testing add_plant_params  -----------------------#
+        result = pp.get_plant_params("Plant1")
+        print(f"Result for get_plant_params is {result}")
+        # -------------------- Testing add_plant_params  ------------------------#
+        result = pp.add_plant_params("Plant4", 55, 55, 55)
+        print(f"Result for add_plant_params is {result}")
+        # ----------------- Testing update_plant_params  -----------------------#
+        result = pp.update_plant_params("Plant1", 55, 55, 55)
+        print(f"Result for update_plant_params is {result}")
 
     finally:
         if qf and not qf.closed:
             qf.close()
-        ww.disconnect()
+        pp.disconnect()
 
 
 if __name__ == '__main__':
