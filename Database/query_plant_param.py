@@ -130,6 +130,7 @@ class PlantParam:
             return True
 
         except pg.Error as ex:
+            self.connection.rollback()
             # You may find it helpful to uncomment this line while debugging,
             # as it will show you all the details of the error that occurred:
             # raise ex
@@ -157,6 +158,25 @@ class PlantParam:
             self.connection.commit()
             cur.close()
             return True
+
+        except pg.Error as ex:
+            self.connection.rollback()
+            # You may find it helpful to uncomment this line while debugging,
+            # as it will show you all the details of the error that occurred:
+            # raise ex
+            return 0
+
+    def print_plant_params(self) -> None:
+        """Print the contents of the database
+        """
+        try:
+            cur = self.connection.cursor()
+
+            cur.execute(
+                'SELECT * FROM IdealPlantParams;')
+
+            for row in cur:
+                print(row)
 
         except pg.Error as ex:
             # You may find it helpful to uncomment this line while debugging,
@@ -239,6 +259,8 @@ def test_preliminary() -> None:
         # ----------------- Testing update_plant_params  -----------------------#
         result = pp.update_plant_params("Plant1", 55, 55, 55, 55)
         print(f"Result for update_plant_params is {result}")
+        # ----------------- Testing print_plant_params  -----------------------#
+        pp.print_plant_params()
 
     finally:
         if qf and not qf.closed:
