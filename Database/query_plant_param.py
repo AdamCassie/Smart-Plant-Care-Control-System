@@ -234,10 +234,10 @@ def test_preliminary() -> None:
         result = pp.get_plant_params("Plant1")
         print(f"Result for get_plant_params is {result}")
         # -------------------- Testing add_plant_params  ------------------------#
-        result = pp.add_plant_params("Plant4", 55, 55, 55)
+        result = pp.add_plant_params("Plant4", 55, 55, 55, 55)
         print(f"Result for add_plant_params is {result}")
         # ----------------- Testing update_plant_params  -----------------------#
-        result = pp.update_plant_params("Plant1", 55, 55, 55)
+        result = pp.update_plant_params("Plant1", 55, 55, 55, 55)
         print(f"Result for update_plant_params is {result}")
 
     finally:
