@@ -8,7 +8,7 @@ import csv
 
 def selection_page():
     # create an instance of the database
-    dataBase = PlantParam()
+
     # set a colour theme for window
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')

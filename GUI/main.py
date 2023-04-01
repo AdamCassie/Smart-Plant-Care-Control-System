@@ -17,7 +17,7 @@ sys.path.insert(0, database_dir)
 
 # Import the my_module.py module
 from query_plant_param import PlantParam
-
+import query_plant_param
 
 pp = PlantParam()
 qf = None
@@ -45,14 +45,19 @@ try:
     # your database.
     # Note: make sure that the schema and data files are in the same
     # directory (folder) as your query_plant_param.py file.
-    data_file_path = database_dir + "/plant_param_data.sql"
+    data_file_path = database_dir
     print(data_file_path)
     query_plant_param.setup(dbname, user, password, data_file_path)
+    # --------------------- Testing get_plant_params  ------------------------#
+    result = pp.get_plant_params("Plant1")
+    print(f"Result for get_plant_params is {result}")
+
+    start_up_page.start_up_page(pp)
 
 finally:
     if qf and not qf.closed:
         qf.close()
     pp.disconnect()
 
-start_up_page.start_up_page()
+
 print("Execute")

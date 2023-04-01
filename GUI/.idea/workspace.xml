@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment="Cleaned up the files">
+    <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment="Added database connection to the mainfile">
+      <change beforePath="$PROJECT_DIR$/../Database/query_plant_param.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Database/query_plant_param.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/selection_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/selection_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start_up_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_up_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

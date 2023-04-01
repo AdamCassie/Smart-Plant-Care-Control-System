@@ -199,10 +199,10 @@ def setup(dbname: str, username: str, password: str, file_path: str) -> None:
         )
         cursor = connection.cursor()
 
-        schema_file = open("./plant_param_schema.sql", "r")
+        schema_file = open(file_path +  "./plant_param_schema.sql", "r")
         cursor.execute(schema_file.read())
 
-        data_file = open(file_path, "r")
+        data_file = open(file_path + "./plant_param_data.sql", "r")
         cursor.execute(data_file.read())
 
         connection.commit()
@@ -218,60 +218,3 @@ def setup(dbname: str, username: str, password: str, file_path: str) -> None:
             schema_file.close()
         if data_file:
             data_file.close()
-
-
-def test_preliminary() -> None:
-    """Test preliminary aspects of the PlantParam methods."""
-    pp = PlantParam()
-    qf = None
-    try:
-        # TODO: Change the values of the following variables to connect to your
-        #  own database:
-        dbname = 'plantcare'
-        user = 'postgres'
-        password = 'password'
-
-        connected = pp.connect(dbname, user, password)
-
-        # The following is an assert statement. It checks that the value for
-        # connected is True. The message after the comma will be printed if
-        # that is not the case (connected is False).
-        # Use the same notation to thoroughly test the methods we have provided
-        assert connected, f"[Connected] Expected True | Got {connected}."
-
-        # TODO: Test one or more methods here, or better yet, make more testing
-        #   functions, with each testing a different aspect of the code.
-
-        # The following function will set up the testing environment by loading
-        # the sample data we have provided into your database. You can create
-        # more sample data files and use the same function to load them into
-        # your database.
-        # Note: make sure that the schema and data files are in the same
-        # directory (folder) as your query_plant_param.py file.
-        setup(dbname, user, password, './plant_param_data.sql')
-
-        # --------------------- Testing get_plant_params  ------------------------#
-        result = pp.get_plant_params("Plant1")
-        print(f"Result for get_plant_params is {result}")
-        # -------------------- Testing add_plant_params  ------------------------#
-        result = pp.add_plant_params("Plant4", 55, 55, 55, 55)
-        print(f"Result for add_plant_params is {result}")
-        # ----------------- Testing update_plant_params  -----------------------#
-        result = pp.update_plant_params("Plant1", 55, 55, 55, 55)
-        print(f"Result for update_plant_params is {result}")
-        # ----------------- Testing print_plant_params  -----------------------#
-        pp.print_plant_params()
-
-    finally:
-        if qf and not qf.closed:
-            qf.close()
-        pp.disconnect()
-
-
-if __name__ == '__main__':
-    # Un comment-out the next two lines if you would like to run the doctest
-    # examples (see ">>>" in the methods connect and disconnect)
-    # import doctest
-    # doctest.testmod()
-
-    test_preliminary()
