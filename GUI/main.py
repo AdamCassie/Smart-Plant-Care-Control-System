@@ -45,7 +45,9 @@ try:
     # your database.
     # Note: make sure that the schema and data files are in the same
     # directory (folder) as your query_plant_param.py file.
-    query_plant_param.setup(dbname, user, password, './plant_param_data.sql')
+    data_file_path = database_dir + "/plant_param_data.sql"
+    print(data_file_path)
+    query_plant_param.setup(dbname, user, password, data_file_path)
 
 finally:
     if qf and not qf.closed:
