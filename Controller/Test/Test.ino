@@ -105,18 +105,18 @@ void loop()
 
   delay(1000);
 
-  // // Start moisture
-  // for (int i = 0; i < 5; ++i)
-  // {
-  //   moistureVals[i] = analogRead(Pin1);
-  //   Serial.println("Moisture level: ");
-  //   Serial.println(moistureVals[i]);
-  //   delay(5000);
-  // }
+  // Start moisture
+  for (int i = 0; i < 5; ++i)
+  {
+    moistureVals[i] = analogRead(Pin1);
+    Serial.println("Moisture level: ");
+    Serial.println(moistureVals[i]);
+    delay(5000);
+  }
 
-  // moistureLvl = modalMoisture();
-  // Serial.println("Modal moisture level: ");
-  // Serial.println(moistureLvl);
+  moistureLvl = modalMoisture();
+  Serial.print("Modal moisture level = ");
+  Serial.println(moistureLvl);
 
   // if (moistureLvl >= 430)
   // {
