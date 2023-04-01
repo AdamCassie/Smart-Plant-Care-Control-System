@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment="Pages are linked, full functionality now dependent on the back-end. Minor front-end touch ups needed.">
-      <change afterPath="$PROJECT_DIR$/inputToArduino.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/registration_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/registration_page.py" afterDir="false" />
+    <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment="Cleaned up the files">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/selection_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/selection_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +95,21 @@
       <option name="project" value="LOCAL" />
       <updated>1679846360807</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Cleaned up the files">
+      <created>1680368589916</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1680368589916</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Cleaned up the files">
+      <created>1680368622741</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1680368622741</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -131,6 +145,7 @@
     <MESSAGE value="Completed Home page, creating a mainfile here to switch between pages" />
     <MESSAGE value="Completed linking of most pages" />
     <MESSAGE value="Pages are linked, full functionality now dependent on the back-end. Minor front-end touch ups needed." />
-    <option name="LAST_COMMIT_MESSAGE" value="Pages are linked, full functionality now dependent on the back-end. Minor front-end touch ups needed." />
+    <MESSAGE value="Cleaned up the files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up the files" />
   </component>
 </project>

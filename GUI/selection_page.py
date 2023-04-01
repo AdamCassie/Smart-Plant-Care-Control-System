@@ -6,13 +6,6 @@ import sys
 import csv
 
 
-# get the database functions to use in the selection page
-# Add the path to the directory containing my_module.py to the system path
-sys.path.insert(0, 'C:/Users/vishn/OneDrive/Documents/GitHub/ECE496/Database')
-
-# Import the my_module.py module
-from query_plant_param import PlantParam
-
 def selection_page():
     # create an instance of the database
     dataBase = PlantParam()
