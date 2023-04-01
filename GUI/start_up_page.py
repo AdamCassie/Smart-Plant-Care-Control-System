@@ -61,7 +61,7 @@ def start_up_page(dB : PlantParam):
         # if select monitoring page go to the monitoring page
         elif event == 'Monitor Current Plant':
             window.close()
-            output.output()
+            output.output(dB)
             break
 
 

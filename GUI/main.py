@@ -49,8 +49,7 @@ try:
     print(data_file_path)
     query_plant_param.setup(dbname, user, password, data_file_path)
     # --------------------- Testing get_plant_params  ------------------------#
-    result = pp.get_plant_params("Plant1")
-    print(f"Result for get_plant_params is {result}")
+
 
     start_up_page.start_up_page(pp)
 

@@ -3,9 +3,27 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import start_up_page
+import os
+import sys
+
+# Get the path to the directory containing the current script
+script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+
+# Get the path to the sibling directory by joining the script directory with the sibling directory name
+database_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Database'))).replace("\\", "/")
+
+# Print the path to the sibling directory
+print(database_dir)
+
+# get the database functions to use in the selection page
+# Add the path to the directory containing my_module.py to the system path
+sys.path.insert(0, database_dir)
+
+# Import the my_module.py module
+from query_plant_param import PlantParam
 
 
-def output():
+def output(dB: PlantParam):
     # set a colour theme for window
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
@@ -122,7 +140,7 @@ def output():
             break
         if event == 'Return To Home':
             window.close()
-            start_up_page.start_up_page()
+            start_up_page.start_up_page(dB)
             break
 
     window.close()

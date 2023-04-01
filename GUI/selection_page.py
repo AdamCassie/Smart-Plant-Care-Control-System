@@ -44,21 +44,21 @@ def selection_page(dB : PlantParam):
                 [sg.Combo(plantNames, size = (50,150), key = "-OPTION1-", background_color= 'lightgrey',
                           text_color= 'black',enable_events = True, font=("Arial", 16))],
                 [sg.Column([[sg.Text('', size=(1, 3))]], element_justification='center')],
-                [sg.Text("If plant type not found, click register to register new control parameters",
+                [sg.Text("If plant type not found, click to register new control parameters",
                          font = ("Arial", 20), size = (40,None), auto_size_text = True)],
                 [sg.Column([[sg.Text('', size=(1, 3))]], element_justification='center')],
                 [sg.Button('Go to Plant Registration',font=("Arial",16)),
                  sg.Button('Cancel Plant Selection',font=("Arial",16), button_color=('white','darkred'))]]
 
-    OutputColumn = [[sg.Text("Control Values selected",font=("Arial",20))],
+    OutputColumn = [[sg.Text("Ideal Control Target Values selected",font=("Arial",20))],
                     [sg.Text("Plant Selected: ", font=("Arial",20)),sg.Text("", key = "-OUTPUT1-", font=("Arial",20))],
-                    [sg.Text("Moisture Level: ", font=("Arial", 20)), sg.Text("", key="-Moisture-", font=("Arial", 20)),
-                     sg.Text("mg/kg", font=("Arial", 20))],
-                    [sg.Text("Nitrogen Level: ", font=("Arial",20)), sg.Text("", key = "-Nitrogen-", font=("Arial",20)),
+                    [sg.Text("Moisture Target: ", font=("Arial", 20)), sg.Text("", key="-Moisture-", font=("Arial", 20)),
+                     sg.Text("%", font=("Arial", 20))],
+                    [sg.Text("Nitrogen Target: ", font=("Arial",20)), sg.Text("", key = "-Nitrogen-", font=("Arial",20)),
                      sg.Text("mg/kg", font=("Arial",20))],
-                    [sg.Text("Phosphorous Level: ", font=("Arial",20)), sg.Text("", key = "-Phosphorous-", font=("Arial",20)),
+                    [sg.Text("Phosphorous Target: ", font=("Arial",20)), sg.Text("", key = "-Phosphorous-", font=("Arial",20)),
                      sg.Text("mg/kg", font=("Arial",20))],
-                    [sg.Text("Potassium Level: ", font=("Arial",20)), sg.Text("", key = "-Potassium-", font=("Arial",20)),
+                    [sg.Text("Potassium Target: ", font=("Arial",20)), sg.Text("", key = "-Potassium-", font=("Arial",20)),
                      sg.Text("mg/kg", font=("Arial",20))],
                     [sg.Column([[sg.Text('', size=(1, 1))]], element_justification='center')],
                     [sg.Button('Confirm Control Parameters Selection', font=("Arial",16))]]
@@ -89,7 +89,7 @@ def selection_page(dB : PlantParam):
             window["-Potassium-"].update(value=selected_prams[3])
         elif event == 'Go to Plant Registration':
             window.close()
-            registration_page.registration_page()
+            registration_page.registration_page(dB)
             break
         elif event == 'Confirm Control Parameters Selection':
             # write selected parameters to the csv file
@@ -105,7 +105,7 @@ def selection_page(dB : PlantParam):
                 csvwriter.writerow(row)
 
             window.close()
-            output.output()
+            output.output(dB)
             break
 
         elif event == 'Cancel Plant Selection':

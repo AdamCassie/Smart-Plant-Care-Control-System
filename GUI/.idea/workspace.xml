@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment="solved database issue">
+    <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment="Fully linked the selection page to the database">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inputToArduino.csv" beforeDir="false" afterPath="$PROJECT_DIR$/inputToArduino.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/output.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registration_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/registration_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/selection_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/selection_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/start_up_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_up_page.py" afterDir="false" />
     </list>
@@ -117,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680376898857</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Fully linked the selection page to the database">
+      <created>1680379415437</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1680379415437</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -155,6 +165,7 @@
     <MESSAGE value="Pages are linked, full functionality now dependent on the back-end. Minor front-end touch ups needed." />
     <MESSAGE value="Cleaned up the files" />
     <MESSAGE value="solved database issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="solved database issue" />
+    <MESSAGE value="Fully linked the selection page to the database" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fully linked the selection page to the database" />
   </component>
 </project>
