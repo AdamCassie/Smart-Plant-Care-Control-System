@@ -21,7 +21,7 @@ sys.path.insert(0, database_dir)
 from query_plant_param import PlantParam
 
 
-def start_up_page():
+def start_up_page(dB : PlantParam):
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
 
@@ -45,9 +45,8 @@ def start_up_page():
     window = sg.Window('Smart Plant Care Control Start Up Page',
                        layout, size = (screen_width, screen_height), location = (0,0))
 
-    print("Am I here")
+
     while True:
-        print("Enter")
         # Display and interact with the Window
         event, values = window.read()                   # Part 4 - Event loop or Window.read call
         print(event)
@@ -57,7 +56,7 @@ def start_up_page():
         elif event == 'Select Plant To Monitor':
             print(event)
             window.close()
-            selection_page.selection_page()
+            selection_page.selection_page(dB)
             break
         # if select monitoring page go to the monitoring page
         elif event == 'Monitor Current Plant':

@@ -2,11 +2,29 @@ import PySimpleGUI as sg                        # Part 1 - The import
 import output
 import registration_page
 import start_up_page
-import sys
 import csv
+import os
+import sys
+
+# Get the path to the directory containing the current script
+script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+
+# Get the path to the sibling directory by joining the script directory with the sibling directory name
+database_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Database'))).replace("\\", "/")
+
+# Print the path to the sibling directory
+print(database_dir)
+
+# get the database functions to use in the selection page
+# Add the path to the directory containing my_module.py to the system path
+sys.path.insert(0, database_dir)
+
+# Import the my_module.py module
+from query_plant_param import PlantParam
 
 
-def selection_page():
+
+def selection_page(dB : PlantParam):
     # create an instance of the database
 
     # set a colour theme for window
@@ -17,7 +35,7 @@ def selection_page():
     screen_width, screen_height = sg.Window.get_screen_size()
 
     # data for plant drop down menu
-    plantNames = ["Plant 1", "Plant 2", "Plant 3"] # replace with a query to database
+    plantNames = dB.get_all_plant_types() # replace with a query to database
     # data for soil drop down menu
     soilNames = ["Loamy", "Gravel", "Red Sand", "Over burdden"] # replace with a query to database
 
@@ -34,6 +52,8 @@ def selection_page():
 
     OutputColumn = [[sg.Text("Control Values selected",font=("Arial",20))],
                     [sg.Text("Plant Selected: ", font=("Arial",20)),sg.Text("", key = "-OUTPUT1-", font=("Arial",20))],
+                    [sg.Text("Moisture Level: ", font=("Arial", 20)), sg.Text("", key="-Moisture-", font=("Arial", 20)),
+                     sg.Text("mg/kg", font=("Arial", 20))],
                     [sg.Text("Nitrogen Level: ", font=("Arial",20)), sg.Text("", key = "-Nitrogen-", font=("Arial",20)),
                      sg.Text("mg/kg", font=("Arial",20))],
                     [sg.Text("Phosphorous Level: ", font=("Arial",20)), sg.Text("", key = "-Phosphorous-", font=("Arial",20)),
@@ -61,6 +81,12 @@ def selection_page():
         # when plant selected output the selected plant
         elif event == "-OPTION1-":
             window["-OUTPUT1-"].update(value=values["-OPTION1-"])
+            # query to get selected plant parameters
+            selected_prams = list(dB.get_plant_params(values["-OPTION1-"]))
+            window["-Moisture-"].update(value=selected_prams[0])
+            window["-Nitrogen-"].update(value=selected_prams[1])
+            window["-Phosphorous-"].update(value=selected_prams[2])
+            window["-Potassium-"].update(value=selected_prams[3])
         elif event == 'Go to Plant Registration':
             window.close()
             registration_page.registration_page()
@@ -72,10 +98,11 @@ def selection_page():
                 csvfile.write('')
                 # create a CSV writer object
                 csvwriter = csv.writer(csvfile)
-
+                row = dB.get_plant_params(values["-OPTION1-"])
                 # write a row of column headers
                 csvwriter.writerow(['Plant Name','Moisture','Nitrogen', 'Potassium', 'Phosphorous'])
-                csvwriter.writerow([values["-OPTION1-"],'0', '0', '0','0'])
+                row = [values["-OPTION1-"]] + list(row)
+                csvwriter.writerow(row)
 
             window.close()
             output.output()
@@ -84,7 +111,7 @@ def selection_page():
         elif event == 'Cancel Plant Selection':
             window.close()
             # send back to homepage
-            start_up_page.start_up_page()
+            start_up_page.start_up_page(dB)
             break
 
         # query the database for the Nitrogen Potassium and Phosphorous levels and print them to the screen
