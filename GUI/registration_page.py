@@ -12,8 +12,9 @@ script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 # Get the path to the sibling directory by joining the script directory with the sibling directory name
 database_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Database'))).replace("\\", "/")
 
-# Print the path to the sibling directory
-print(database_dir)
+# Get the path to the input CSV file
+csv_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Controller'))).replace("\\", "/") + "/IntegratedControl"
+
 
 # get the database functions to use in the selection page
 # Add the path to the directory containing my_module.py to the system path
@@ -96,7 +97,8 @@ def registration_page(dB : PlantParam):
             if not invalid:
                 # write the selected params to the csv file
                 # open the CSV file for writing
-                with open('inputToArduino.csv', 'w', newline='') as csvfile:
+                file_path = csv_dir + "/inputToArduino.csv"
+                with open(file_path, 'w', newline='') as csvfile:
                     csvfile.write('')
                     # create a CSV writer object
                     csvwriter = csv.writer(csvfile)

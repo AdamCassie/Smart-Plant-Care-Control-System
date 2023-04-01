@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment="User Input Fully linked to the Database Module" />
+    <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment="Moved input CSV File">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/output.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registration_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/registration_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/selection_page.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,7 +42,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/vishn/OneDrive/Documents/GitHub/ECE496/Arduino Output",
+    "last_opened_file_path": "C:/Users/vishn/OneDrive/Documents/GitHub/ECE496/GUI",
     "settings.editor.selected.configurable": "preferences.general"
   }
 }]]></component>
@@ -126,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680386049875</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Moved input CSV File">
+      <created>1680386584854</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1680386584854</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -166,6 +179,7 @@
     <MESSAGE value="solved database issue" />
     <MESSAGE value="Fully linked the selection page to the database" />
     <MESSAGE value="User Input Fully linked to the Database Module" />
-    <option name="LAST_COMMIT_MESSAGE" value="User Input Fully linked to the Database Module" />
+    <MESSAGE value="Moved input CSV File" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved input CSV File" />
   </component>
 </project>
