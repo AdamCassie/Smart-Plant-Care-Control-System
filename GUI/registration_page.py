@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 import selection_page
 import start_up_page
 import output
-
+import csv
 
 def registration_page():
     # set a colour theme for window
@@ -16,9 +16,7 @@ def registration_page():
         [sg.Text('', size=(1, 2), font=('Arial', 20))],
         [sg.Text('Plant type', font=("Arial", 20)), sg.InputText(background_color='lightgrey', text_color='black',
                                                                  font=("Arial", 20))],
-        [sg.VerticalSeparator(pad=(0, 25))],
-        [sg.Text('Soil type', font=("Arial", 20)), sg.InputText(background_color='lightgrey', text_color='black',
-                                                                font=("Arial", 20))],
+
         [sg.VerticalSeparator(pad=(0, 25))],
         [sg.Text('Required moisture level', font=("Arial", 20)), sg.InputText(background_color='lightgrey',
                                                                               text_color='black', font=("Arial", 20))],
@@ -46,10 +44,13 @@ def registration_page():
         if event == sg.WINDOW_CLOSED:
             break
         elif event == 'Confirm Registration':
+            # rows of input
+            row = []
             # handle registration logic here
             # checking for invalid input (empty strings)
             invalid = False
             for i in values:
+                row.append(values[i])
                 if(values[i] == ''):
                     # tell the user that input was invalid
                     print('invalid input')
@@ -60,6 +61,17 @@ def registration_page():
             #push valid values
             # go to monitoring page
             if (not(invalid)):
+                # write the selected params to the csv file
+                # open the CSV file for writing
+                with open('inputToArduino.csv', 'w', newline='') as csvfile:
+                    csvfile.write('')
+                    # create a CSV writer object
+                    csvwriter = csv.writer(csvfile)
+
+                    # write a row of column headers
+                    csvwriter.writerow(['Plant Name', 'Moisture', 'Nitrogen', 'Potassium', 'Phosphorous'])
+                    csvwriter.writerow(row)
+
                 window.close()
                 output.output()
                 break
