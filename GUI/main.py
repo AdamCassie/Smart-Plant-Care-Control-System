@@ -6,7 +6,7 @@ import sys
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 
 # Get the path to the sibling directory by joining the script directory with the sibling directory name
-database_dir = os.path.abspath(os.path.join(script_dir, '..', 'Database'))
+database_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Database'))).replace("\\", "/")
 
 # Print the path to the sibling directory
 print(database_dir)
