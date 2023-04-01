@@ -75,6 +75,36 @@ class PlantParam:
         except pg.Error:
             return False
 
+    def get_all_plant_types(self)->list:
+        """Return a list of all plant types in the database
+        """
+
+        try:
+            cur = self.connection.cursor()
+
+            result = []
+
+            cur.execute(
+                'SELECT plantType FROM IdealPlantParams;')
+
+            if cur.rowcount == 0:
+                print(f"No plants found in database.")
+                cur.close()
+                return result
+
+            for row in cur:
+                result.append(row[0])
+
+            cur.close()
+            return result
+
+        except pg.Error as ex:
+            # You may find it helpful to uncomment this line while debugging,
+            # as it will show you all the details of the error that occurred:
+            # raise ex
+            return 0
+
+
     def get_plant_params(self, plant_type: str) -> tuple:
         """Given the type of a plant <plant_type>, which is represented by a
         string, query the database for the ideal moisture, Nitrogen, Phosphorous
