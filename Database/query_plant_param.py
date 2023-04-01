@@ -227,9 +227,9 @@ def test_preliminary() -> None:
     try:
         # TODO: Change the values of the following variables to connect to your
         #  own database:
-        dbname = 'csc343h-cassiead'
-        user = 'cassiead'
-        password = ''
+        dbname = 'plantcare'
+        user = 'postgres'
+        password = 'password'
 
         connected = pp.connect(dbname, user, password)
 
