@@ -1,7 +1,7 @@
+#include <stdio.h>
 #include "AltSoftSerial.h"
 #include "Adafruit_GFX.h"
 #include "Adafruit_SSD1306.h"
-#include <stdio.h>
 
 // RO to pin 8 & DI to pin 9 when using AltSoftSerial
 
@@ -61,7 +61,7 @@ Param k = {0, 0, K_DELAY};
 Rank nutrient_priority = {'N', 'P', 'K', &n, &p, &k};
 
 // CSV file containing target values for plant selected via GUI
-FILE *fp = NULL
+FILE *fp = NULL;
 
 // Setup code to run once
 void setup()
@@ -100,7 +100,7 @@ void setup()
 // Main program loop
 void loop()
 {
-  get_target_values()
+  get_target_values();
   optimize_params();
   printf("%c\n", nutrient_priority.first_ptr->value);
 }
@@ -123,15 +123,15 @@ void get_target_values() {
     return;
   }
   else {
-    n.target = n1;
-    p.target = n2;
-    k.target = n3;
-    moisture.target = n4;
+    moisture.target = n1;
+    n.target = n2;
+    p.target = n3;
+    k.target = n4;
   }
 
   // Close csv file
   fclose(fp);
-  fp = NULL
+  fp = NULL;
 }
 
 // Nitrogen control algorithm
