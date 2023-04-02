@@ -108,7 +108,7 @@ void loop()
 void get_target_values() {
   // Wait until csv file is loaded with target values
   do {
-    fp = fopen("filename.csv", "r");
+    fp = fopen("inputToArduino.csv", "r");
   } while(fp==NULL);
 
   // skip the header row
