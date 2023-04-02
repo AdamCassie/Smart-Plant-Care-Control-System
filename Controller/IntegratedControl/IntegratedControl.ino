@@ -119,7 +119,7 @@ void get_target_values() {
   int n1, n2, n3, n4;
   int result = fscanf(fp, "%d,%d,%d,%d", &n1, &n2, &n3, &n4);
   if (result != 4) {
-    printf("\nError reading file.\n");
+    Serial.println("\nError reading file.\n");
     return;
   }
   else {
