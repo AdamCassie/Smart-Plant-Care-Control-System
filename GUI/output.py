@@ -5,6 +5,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import start_up_page
 import os
 import sys
+import serial
+
 
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -21,7 +23,7 @@ sys.path.insert(0, database_dir)
 from query_plant_param import PlantParam
 
 
-def output(dB: PlantParam):
+def output(dB: PlantParam, ser):
     # set a colour theme for window
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
@@ -132,13 +134,17 @@ def output(dB: PlantParam):
 
     # Wait for user interaction and close the window
     while True:
+        data = ser.readline().decode('utf-8')
+        if data:
+            data = data.strip().split(' ')
+            print(data)
         event, values = window.read()
         # close the window
         if event == sg.WINDOW_CLOSED:
             break
         if event == 'Return To Home':
             window.close()
-            start_up_page.start_up_page(dB)
+            start_up_page.start_up_page(dB,ser)
             break
 
     window.close()

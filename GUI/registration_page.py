@@ -5,6 +5,7 @@ import output
 import csv
 import os
 import sys
+import serial
 
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -23,7 +24,7 @@ sys.path.insert(0, database_dir)
 # Import the my_module.py module
 from query_plant_param import PlantParam
 
-def registration_page(dB : PlantParam):
+def registration_page(dB : PlantParam, ser):
     # set a colour theme for window
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
@@ -65,6 +66,10 @@ def registration_page(dB : PlantParam):
     window = sg.Window('Registration', layout, resizable=True, size=(screen_width, screen_height))
 
     while True:
+        data = ser.readline().decode('utf-8')
+        if data:
+            data = data.strip().split(' ')
+            print(data)
         event, values = window.read()
         if event == sg.WINDOW_CLOSED:
             break
@@ -114,7 +119,7 @@ def registration_page(dB : PlantParam):
                                     int(values['-Potassium-']))
 
                 window.close()
-                output.output(dB)
+                output.output(dB, ser)
                 break
 
 
@@ -122,7 +127,7 @@ def registration_page(dB : PlantParam):
         elif event == 'Cancel':
             window.close()
             # send back to homepage
-            start_up_page.start_up_page()
+            start_up_page.start_up_page(dB, ser)
             break
 
     window.close()

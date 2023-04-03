@@ -5,6 +5,7 @@ import start_up_page
 import csv
 import os
 import sys
+import serial
 
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -25,7 +26,7 @@ from query_plant_param import PlantParam
 
 
 
-def selection_page(dB : PlantParam):
+def selection_page(dB : PlantParam, ser):
     # create an instance of the database
 
     # set a colour theme for window
@@ -74,6 +75,10 @@ def selection_page(dB : PlantParam):
                        ,resizable = True)      # Part 3 - Window Defintion
 
     while True:
+        data = ser.readline().decode('utf-8')
+        if data:
+            data = data.strip().split(' ')
+            print(data)
         # Display and interact with the Window
         event, values = window.read()                   # Part 4 - Event loop or Window.read call
         # clean up when window closed
@@ -90,7 +95,7 @@ def selection_page(dB : PlantParam):
             window["-Potassium-"].update(value=selected_prams[3])
         elif event == 'Go to Plant Registration':
             window.close()
-            registration_page.registration_page(dB)
+            registration_page.registration_page(dB,ser)
             break
         elif event == 'Confirm Control Parameters Selection':
             # write selected parameters to the csv file
@@ -106,14 +111,27 @@ def selection_page(dB : PlantParam):
                 row = [values["-OPTION1-"]] + list(row)
                 csvwriter.writerow(row)
 
+
+                my_array = dB.get_plant_params(values["-OPTION1-"])
+
+                # Convert the array to a string
+                array_string = str(my_array)
+
+                # Remove the parentheses from the string
+                array_string = array_string.replace("(", "")
+                array_string = array_string.replace(")", "")
+
+                print("selected parameters are ", my_array)
+
+                ser.write(bytes(array_string, 'utf-8'))  # send the array to the Arduino over Serial
             window.close()
-            output.output(dB)
+            output.output(dB,ser)
             break
 
         elif event == 'Cancel Plant Selection':
             window.close()
             # send back to homepage
-            start_up_page.start_up_page(dB)
+            start_up_page.start_up_page(dB,ser)
             break
 
         # query the database for the Nitrogen Potassium and Phosphorous levels and print them to the screen

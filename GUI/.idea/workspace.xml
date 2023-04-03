@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment="Moved input CSV File">
+    <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment=" GUI writes to the input CSV file in the Controller directory">
+      <change beforePath="$PROJECT_DIR$/../Controller/IntegratedControl/IntegratedControl.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../Controller/IntegratedControl/IntegratedControl.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/output.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/registration_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/registration_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/selection_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/selection_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start_up_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_up_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,14 +40,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/vishn/OneDrive/Documents/GitHub/ECE496/GUI",
-    "settings.editor.selected.configurable": "preferences.general"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/vishn/OneDrive/Documents/GitHub/ECE496/Arduino Output/get_output.py&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -139,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680386584854</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary=" GUI writes to the input CSV file in the Controller directory">
+      <created>1680387314708</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1680387314708</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -180,6 +189,7 @@
     <MESSAGE value="Fully linked the selection page to the database" />
     <MESSAGE value="User Input Fully linked to the Database Module" />
     <MESSAGE value="Moved input CSV File" />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved input CSV File" />
+    <MESSAGE value=" GUI writes to the input CSV file in the Controller directory" />
+    <option name="LAST_COMMIT_MESSAGE" value=" GUI writes to the input CSV file in the Controller directory" />
   </component>
 </project>

@@ -60,6 +60,9 @@ Param k = {0, 0, K_DELAY};
 // Global variable for priority of each plant nutrient
 Rank nutrient_priority = {'N', 'P', 'K', &n, &p, &k};
 
+// Global variable for control params
+int my_array[4] = {0,0,0,0};
+
 // CSV file containing target values for plant selected via GUI
 FILE *fp = NULL;
 
@@ -100,39 +103,82 @@ void setup()
 // Main program loop
 void loop()
 {
-  get_target_values();
+  bool flag_read = true;
+  while(flag_read)
+   {
+    get_target_values();
+    Serial.println("Loop Loop");
+     if(my_array[0] != 0 &&
+        my_array[1] != 0 &&
+        my_array[2] != 0 &&
+        my_array[3] != 0  )
+     {
+       flag_read = false; 
+     }
+   }
+  Serial.println("Beginning control");
   optimize_params();
-  printf("%c\n", nutrient_priority.first_ptr->value);
+  // printf("%c\n", nutrient_priority.first_ptr->value);
 }
+
+
 
 void get_target_values() {
-  // Wait until csv file is loaded with target values
-  do {
-    fp = fopen("inputToArduino.csv", "r");
-  } while(fp==NULL);
-
-  // skip the header row
-  char buffer[1024];
-  fgets(buffer, 1024, fp);  
-
-  // Get target values from second row
-  int n1, n2, n3, n4;
-  int result = fscanf(fp, "%d,%d,%d,%d", &n1, &n2, &n3, &n4);
-  if (result != 4) {
-    Serial.println("\nError reading file.\n");
-    return;
+  if (Serial.available()) { // check if there's data available on the Serial port
+    String data = Serial.readString(); // read the data as a String
+    Serial.println(data);
+    int delimiter_index = data.indexOf(','); // find the index of the comma delimiter
+    int array_index = 0;
+    while (delimiter_index != -1) { // loop while there are still delimiters in the string
+      String value_str = data.substring(0, delimiter_index); // extract the value substring
+      my_array[array_index] = value_str.toInt(); // convert the value substring to an integer and store it in the array
+      data = data.substring(delimiter_index + 1); // remove the processed substring from the original string
+      delimiter_index = data.indexOf(','); // find the index of the next delimiter
+      array_index++; // increment the array index
+    }
+    my_array[array_index] = data.toInt(); // convert the last value substring to an integer and store it in the array
+    for (int i = 0; i < 4; i++){
+      //Serial.println("%c\n", my_array[i]);
+      //printf("%c\n", my_array[i]);
+       Serial.println(my_array[i]);
+    }
   }
-  else {
-    moisture.target = n1;
-    n.target = n2;
-    p.target = n3;
-    k.target = n4;
+  
+  // if (Serial.available()) { // check if there's data available on the Serial port
+  //   String data = Serial.readString(); // read the data as a String
+  //   int i = 0;
+  //   for (String value : data.split(",")) { // split the String into individual values
+  //     my_array[i++] = value.toInt(); // convert each value to an integer and store it in the array
+  //     printf("%c\n", my_array[i]);
+  //   }
+  // // Wait until csv file is loaded with target values
+  // do {
+  //   fp = fopen("inputToArduino.csv", "r");
+  // } while(fp==NULL);
+
+  // // skip the header row
+  // char buffer[1024];
+  // fgets(buffer, 1024, fp);  
+
+  // // Get target values from second row
+  // int n1, n2, n3, n4;
+  // int result = fscanf(fp, "%d,%d,%d,%d", &n1, &n2, &n3, &n4);
+  // if (result != 4) {
+  //   Serial.println("\nError reading file.\n");
+  //   return;
+  moisture.target = my_array[0];
+  n.target = my_array[1];
+  p.target = my_array[2];
+  k.target = my_array[3];
   }
 
-  // Close csv file
-  fclose(fp);
-  fp = NULL;
-}
+
+
+
+  // // Close csv file
+  // fclose(fp);
+  // fp = NULL;
+
 
 // Nitrogen control algorithm
 void n_control()

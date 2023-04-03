@@ -3,6 +3,8 @@ import selection_page
 import output
 import os
 import sys
+import serial
+
 
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -21,7 +23,7 @@ sys.path.insert(0, database_dir)
 from query_plant_param import PlantParam
 
 
-def start_up_page(dB : PlantParam):
+def start_up_page(dB : PlantParam, ser):
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
 
@@ -47,6 +49,10 @@ def start_up_page(dB : PlantParam):
 
 
     while True:
+        data = ser.readline().decode('utf-8')
+        if data:
+            data = data.strip().split(' ')
+            print(data)
         # Display and interact with the Window
         event, values = window.read()                   # Part 4 - Event loop or Window.read call
         print(event)
@@ -56,12 +62,12 @@ def start_up_page(dB : PlantParam):
         elif event == 'Select Plant To Monitor':
             print(event)
             window.close()
-            selection_page.selection_page(dB)
+            selection_page.selection_page(dB,ser)
             break
         # if select monitoring page go to the monitoring page
         elif event == 'Monitor Current Plant':
             window.close()
-            output.output(dB)
+            output.output(dB,ser)
             break
 
 

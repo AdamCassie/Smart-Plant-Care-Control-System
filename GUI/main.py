@@ -1,6 +1,8 @@
 import start_up_page
 import os
 import sys
+import serial
+
 
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -16,6 +18,8 @@ sys.path.insert(0, database_dir)
 # Import the my_module.py module
 from query_plant_param import PlantParam
 import query_plant_param
+
+ser = serial.Serial('COM3', 4800, timeout=1)  # replace 'COM3' with the name of the port your Arduino is connected to
 
 pp = PlantParam()
 qf = None
@@ -48,8 +52,13 @@ try:
     query_plant_param.setup(dbname, user, password, data_file_path)
     # --------------------- Testing get_plant_params  ------------------------#
 
+    start_up_page.start_up_page(pp, ser)
 
-    start_up_page.start_up_page(pp)
+    while True:
+        data = ser.readline().decode('utf-8')
+        if data:
+            data = data.strip().split(' ')
+            print(data)
 
 finally:
     if qf and not qf.closed:
