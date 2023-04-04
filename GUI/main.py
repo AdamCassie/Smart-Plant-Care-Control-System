@@ -57,22 +57,18 @@ try:
 
     start_up_page.start_up_page(pp, ser)
 
-    # while True:
-    #     data = ser.readline().decode('utf-8')
-    #     if data:
-    #         1data = data.strip().split(' ')
-    #         print(data)
+    while True:
+        data = ser.readline().decode('utf-8')
+        if data:
+            data = data.strip().split(' ')
+            print(data)
 
 finally:
     if qf and not qf.closed:
         qf.close()
     pp.disconnect()
 
-while True:
-    data = ser.readline().decode('utf-8')
-    if data:
-        data = data.strip().split(' ')
-        print(data)
+
 sys.exit()
 
 
