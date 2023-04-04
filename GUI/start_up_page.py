@@ -54,7 +54,7 @@ def start_up_page(dB : PlantParam, ser):
             data = data.strip().split(' ')
             print(data)
         # Display and interact with the Window
-        event, values = window.read(timeout=100)                   # Part 4 - Event loop or Window.read call
+        event, values = window.read(timeout=1000)                   # Part 4 - Event loop or Window.read call
         if event == sg.WINDOW_CLOSED:
             break
         # if select plant to monitor load selection page
@@ -63,6 +63,7 @@ def start_up_page(dB : PlantParam, ser):
             selection_page.selection_page(dB,ser)
             break
         # if select monitoring page go to the monitoring page
+        # this will give an error: need to check this
         elif event == 'Monitor Current Plant':
             window.close()
             output.output(dB,ser)

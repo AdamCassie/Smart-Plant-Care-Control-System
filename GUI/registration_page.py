@@ -70,7 +70,7 @@ def registration_page(dB : PlantParam, ser):
         if data:
             data = data.strip().split(' ')
             print(data)
-        event, values = window.read()
+        event, values = window.read(timeout=1000)
         if event == sg.WINDOW_CLOSED:
 
             break
@@ -140,7 +140,7 @@ def registration_page(dB : PlantParam, ser):
                 ser.write(bytes(array_string, 'utf-8'))  # send the array to the Arduino over Serial
 
                 window.close()
-                output.output(dB, ser)
+                output.output(dB, ser, my_array)
                 break
 
 
