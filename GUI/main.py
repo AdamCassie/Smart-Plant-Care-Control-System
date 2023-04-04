@@ -22,7 +22,7 @@ from query_plant_param import PlantParam
 import query_plant_param
 
 
-ser = serial.Serial('COM4', 4800, timeout=1)  # replace 'COM3' with the name of the port your Arduino is connected to
+ser = serial.Serial('COM3', 4800, timeout=1)  # replace 'COM3' with the name of the port your Arduino is connected to
 
 pp = PlantParam()
 qf = None

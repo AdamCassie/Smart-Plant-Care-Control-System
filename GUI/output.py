@@ -76,7 +76,6 @@ def output(dB: PlantParam, ser, ideal_params):
             data = data.strip().split(' ')
             print(data)
         event, values = window.read(timeout=timer)
-        event, values = window.read(timeout=100)
         # close the window
         if event == sg.WINDOW_CLOSED:
             break

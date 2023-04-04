@@ -25,7 +25,7 @@ def run_controller(lock):
         print(f"Controller directory is: {controller_dir}")
 
         # set the port name and baud rate
-        port = "COM4"
+        port = "COM3"
         # valid_port = False
         # while(valid_port == False):
         #     port = input("Please enter the port for the Arduino board: ").upper()
