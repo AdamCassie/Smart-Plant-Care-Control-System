@@ -7,6 +7,7 @@ import os
 import sys
 import serial
 
+timer = 2000
 
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -138,7 +139,7 @@ def output(dB: PlantParam, ser):
         if data:
             data = data.strip().split(' ')
             print(data)
-        event, values = window.read(timeout=100)
+        event, values = window.read(timeout=timer)
         # close the window
         if event == sg.WINDOW_CLOSED:
             break
@@ -146,4 +147,5 @@ def output(dB: PlantParam, ser):
             window.close()
             start_up_page.start_up_page(dB,ser)
             break
+        print("yow")
     window.close()

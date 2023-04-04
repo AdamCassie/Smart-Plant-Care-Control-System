@@ -4,11 +4,13 @@ import sys
 import serial
 
 
+
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 
 # Get the path to the sibling directory by joining the script directory with the sibling directory name
 database_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Database'))).replace("\\", "/")
+
 
 
 # get the database functions to use in the selection page
@@ -19,7 +21,8 @@ sys.path.insert(0, database_dir)
 from query_plant_param import PlantParam
 import query_plant_param
 
-ser = serial.Serial('COM3', 4800, timeout=1)  # replace 'COM3' with the name of the port your Arduino is connected to
+
+ser = serial.Serial('COM4', 4800, timeout=1)  # replace 'COM3' with the name of the port your Arduino is connected to
 
 pp = PlantParam()
 qf = None
@@ -54,16 +57,14 @@ try:
 
     start_up_page.start_up_page(pp, ser)
 
-    while True:
-        data = ser.readline().decode('utf-8')
-        if data:
-            data = data.strip().split(' ')
-            print(data)
-
 finally:
     if qf and not qf.closed:
         qf.close()
     pp.disconnect()
 
-
+while True:
+    data = ser.readline().decode('utf-8')
+    if data:
+        data = data.strip().split(' ')
+        print(data)
 
