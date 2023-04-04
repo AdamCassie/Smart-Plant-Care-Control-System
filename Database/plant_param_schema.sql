@@ -19,9 +19,9 @@ create table IdealPlantParams (
 	constraint validMoistureRange 
 		check (moistureTarget >= 0 and moistureTarget <= 100),
 	constraint validNitrogenRange 
-		check (nitrogenTarget >= 0 and nitrogenTarget <= 255),
+		check (nitrogenTarget >= 0 and nitrogenTarget <= 1999),
 	constraint validPhosphorousRange 
-		check (phosphorousTarget >= 0 and phosphorousTarget <= 255),
+		check (phosphorousTarget >= 0 and phosphorousTarget <= 1999),
 	constraint validPotassiumRange 
-		check (potassiumTarget >= 0 and potassiumTarget <= 255)
+		check (potassiumTarget >= 0 and potassiumTarget <= 1999)
 );
