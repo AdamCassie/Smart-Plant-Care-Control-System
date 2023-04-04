@@ -325,7 +325,7 @@ int read_moisture()
 
   int moistureLvl = compute_modal_moisture(moistureVals, sizeof(moistureVals) / sizeof(moistureVals[0]));
 
-  Serial.println("Modal moisture level: ");
+  Serial.print("Modal moisture level: ");
   Serial.println(moistureLvl);
 
   return moistureLvl;

@@ -127,7 +127,7 @@ def selection_page(dB : PlantParam, ser):
 
                 ser.write(bytes(array_string, 'utf-8'))  # send the array to the Arduino over Serial
             window.close()
-            output.output(dB,ser)
+            output.output(dB,ser, my_array)
             break
 
         elif event == 'Cancel Plant Selection':

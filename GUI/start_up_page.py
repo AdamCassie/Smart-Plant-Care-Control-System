@@ -64,6 +64,7 @@ def start_up_page(dB : PlantParam, ser):
             selection_page.selection_page(dB,ser)
             break
         # if select monitoring page go to the monitoring page
+        # this will give an error: need to check this
         elif event == 'Monitor Current Plant':
             window.close()
             output.output(dB,ser)

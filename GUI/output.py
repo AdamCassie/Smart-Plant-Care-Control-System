@@ -1,7 +1,4 @@
 import PySimpleGUI as sg
-import matplotlib.pyplot as plt
-import numpy as np
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import start_up_page
 import os
 import sys
@@ -15,7 +12,6 @@ script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 # Get the path to the sibling directory by joining the script directory with the sibling directory name
 database_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Database'))).replace("\\", "/")
 
-
 # get the database functions to use in the selection page
 # Add the path to the directory containing my_module.py to the system path
 sys.path.insert(0, database_dir)
@@ -24,128 +20,97 @@ sys.path.insert(0, database_dir)
 from query_plant_param import PlantParam
 
 
-def output(dB: PlantParam, ser):
+def output(dB: PlantParam, ser, ideal_params):
     # set a colour theme for window
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
-
-    # Create some data to plot (time)
-    x = np.linspace(0, 24, 25)
-
-    # adding moisture, N, P and K values to plot. these will have to be replaced by actual data from arduino and database
-    # moisture
-    moisture_real = np.cos(x)
-    moisture_ideal = np.linspace(5, 5, 25)
-
-    # nitrogen
-    N_real = np.cos(x)
-    N_ideal = np.linspace(5, 5, 25)
-
-    # phosphorus
-    P_real = np.cos(x)
-    P_ideal = np.linspace(5, 5, 25)
-
-    # potassium
-    K_real = np.cos(x)
-    K_ideal = np.linspace(5, 5, 25)
-
-    # creating the figures
-    # moisture
-    moisture_figure = plt.Figure(figsize=(7, 4), dpi=100)
-    ax1 = moisture_figure.add_subplot()
-    ax1.plot(x, moisture_real, color='blue', label='Soil moisture value')
-    ax1.plot(x, moisture_ideal, color='green', label='Ideal moisture value')
-    ax1.legend()
-    ax1.set_xlabel('Time (hours)')
-    ax1.set_xticks(x)
-
-    # N
-    N_figure = plt.Figure(figsize=(7, 4), dpi=100)
-    ax2 = N_figure.add_subplot()
-    ax2.plot(x, N_real, color='red', label='Soil N value')
-    ax2.plot(x, N_ideal, color='green', label='Ideal N value')
-    ax2.legend()
-    ax2.set_xlabel('Time (hours)')
-    ax2.set_xticks(x)
-
-    # P
-    P_figure = plt.Figure(figsize=(7, 4), dpi=100)
-    ax3 = P_figure.add_subplot()
-    ax3.plot(x, P_real, color='purple', label='Soil P value')
-    ax3.plot(x, P_ideal, color='green', label='Ideal P value')
-    ax3.legend()
-    ax3.set_xlabel('Time (hours)')
-    ax3.set_xticks(x)
-
-    # K
-    K_figure = plt.Figure(figsize=(7, 4), dpi=100)
-    ax4 = K_figure.add_subplot()
-    ax4.plot(x, K_real, color='orange', label='Soil K value')
-    ax4.plot(x, K_ideal, color='green', label='Ideal K value')
-    ax4.legend()
-    ax4.set_xlabel('Time (hours)')
-    ax4.set_xticks(x)
-
-    # creating the layouts for the window
-    # left hand side - moisture and N
-    graph_layout_1 = [[sg.Graph((600, 400), (0, 0), (600, 400), key='-MOISTURE-')],
-                      [sg.Graph((600, 400), (0, 0), (600, 400), key='-N-')]]
-
-    # right hand side - P and K
-    graph_layout_2 = [[sg.Graph((600, 400), (0, 0), (600, 400), key='-P-')],
-                      [sg.Graph((600, 400), (0, 0), (600, 400), key='-K-')]]
-
-    # button to close the window
-    button_layout = [[sg.Button('Return To Home')]]
-
-    # getting the screen size to make the window fullscreen
+    print(type(ideal_params[0]))
+    # getting the screen size to make the window full screen
     screen_width, screen_height = sg.Window.get_screen_size()
 
+    column1 = [[sg.Text("Soil Nitrogen value:", font=("Arial", 20, 'bold'))],
+               [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='NITROGEN')],
+               [sg.VerticalSeparator(pad=(0, 15))],
+               [sg.Text("Ideal Nitrogen value:", font=("Arial", 20, 'bold'))],
+               [sg.Text(ideal_params[0], font=('Arial', 80), size=(10, 1), justification='center')],
+               [sg.VerticalSeparator(pad=(0, 25))],
+               [sg.Text("Soil Potassium value:", font=("Arial", 20, 'bold'))],
+               [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='POTASSIUM')],
+               [sg.VerticalSeparator(pad=(0, 15))],
+               [sg.Text("Ideal Potassium value:", font=("Arial", 20, 'bold'))],
+               [sg.Text(ideal_params[1], font=('Arial', 80), size=(10, 1), justification='center')]
+               ]
+
+    column2 = [[sg.Text("Soil Phosphorus value:", font=("Arial", 20, 'bold'))],
+               [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='PHOSPHORUS')],
+               [sg.VerticalSeparator(pad=(0, 15))],
+               [sg.Text("Ideal Phosphorus value:", font=("Arial", 20, 'bold'))],
+               [sg.Text(ideal_params[2], font=('Arial', 80), size=(10, 1), justification='center')],
+               [sg.VerticalSeparator(pad=(0, 25))],
+               [sg.Text("Soil Moisture value:", font=("Arial", 20, 'bold'))],
+               [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='MOISTURE')],
+               [sg.VerticalSeparator(pad=(0, 15))],
+               [sg.Text("Ideal Moisture value:", font=("Arial", 20, 'bold'))],
+               [sg.Text(ideal_params[3], font=('Arial', 80), size=(10, 1), justification='center')]
+               ]
+
+    # button to close the window
+    button_layout = [[sg.Button('Return To Home', size=(100, 3), font=("Arial", 16))]]
+
     # setting up the layout
-    layout = [[sg.Column(graph_layout_1, size=(700, screen_height)),
-               sg.Column([], size=((screen_width - 2000) // 2, screen_height)),
-               sg.Column(graph_layout_2, size=(700, screen_height)),
+    layout = [[sg.Column(column1, size=(500, screen_height)),
+               sg.Column(column2, size=(500, screen_height)),
                sg.Column(button_layout)]
               ]
 
     # Create the window
     window = sg.Window('Current and Ideal Soil Conditions', layout, size=(screen_width, screen_height), location=(0, 0),
                        titlebar_text_color='black', finalize=True, resizable=True)
+    n_val = 0
+    p_val = 0
+    k_val = 0
 
-    # Add the Figure objects to the Graph elements on the window
-    # moisture
-    fig_canvas1 = FigureCanvasTkAgg(moisture_figure, window['-MOISTURE-'].TKCanvas)
-    fig_canvas1.draw()
-    fig_canvas1.get_tk_widget().pack(side='top', fill='both', expand=1)
-
-    # N
-    fig_canvas2 = FigureCanvasTkAgg(N_figure, window['-N-'].TKCanvas)
-    fig_canvas2.draw()
-    fig_canvas2.get_tk_widget().pack(side='top', fill='both', expand=1)
-
-    # P
-    fig_canvas3 = FigureCanvasTkAgg(P_figure, window['-P-'].TKCanvas)
-    fig_canvas3.draw()
-    fig_canvas3.get_tk_widget().pack(side='top', fill='both', expand=1)
-
-    # K
-    fig_canvas4 = FigureCanvasTkAgg(K_figure, window['-K-'].TKCanvas)
-    fig_canvas4.draw()
-    fig_canvas4.get_tk_widget().pack(side='top', fill='both', expand=1)
-
-    # Wait for user interaction and close the window
     while True:
         data = ser.readline().decode('utf-8')
         if data:
             data = data.strip().split(' ')
             print(data)
         event, values = window.read(timeout=timer)
+        event, values = window.read(timeout=100)
         # close the window
         if event == sg.WINDOW_CLOSED:
             break
+        if event == '__TIMEOUT__':
+            # read data from serial port
+            data = ser.readline().decode().strip().split(' ')
+            if data:
+                # update the output window
+                if data[0] == "Nitrogen" and data[1] == "value:":
+                    n_val = int(data[4])
+                    if n_val >= ideal_params[0]:
+                        window['NITROGEN'].update(n_val, text_color='green')
+                    else:
+                        window['NITROGEN'].update(n_val, text_color='red')
+                elif data[0] == "Phosphorous" and data[1] == "value:":
+                    p_val = int(data[4])
+                    if p_val >= ideal_params[1]:
+                        window['PHOSPHORUS'].update(p_val, text_color='green')
+                    else:
+                        window['PHOSPHORUS'].update(p_val, text_color='red')
+                elif data[0] == "Potassium" and data[1] == "value:":
+                    k_val = int(data[4])
+                    if p_val >= ideal_params[2]:
+                        window['POTASSIUM'].update(k_val, text_color='green')
+                    else:
+                        window['POTASSIUM'].update(k_val, text_color='red')
+                elif data[0] == "Modal":
+                    m_val = int(data[3])
+                    if p_val >= ideal_params[3]:
+                        window['MOISTURE'].update(m_val, text_color='green')
+                    else:
+                        window['MOISTURE'].update(m_val, text_color='red')
         if event == 'Return To Home':
             window.close()
-            start_up_page.start_up_page(dB,ser)
+            start_up_page.start_up_page(dB, ser)
             break
-        print("yow")
     window.close()
