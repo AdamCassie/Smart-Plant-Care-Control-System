@@ -138,7 +138,7 @@ def output(dB: PlantParam, ser):
         if data:
             data = data.strip().split(' ')
             print(data)
-        event, values = window.read()
+        event, values = window.read(timeout=100)
         # close the window
         if event == sg.WINDOW_CLOSED:
             break
@@ -146,5 +146,4 @@ def output(dB: PlantParam, ser):
             window.close()
             start_up_page.start_up_page(dB,ser)
             break
-
     window.close()

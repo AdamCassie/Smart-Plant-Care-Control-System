@@ -107,7 +107,7 @@ void loop()
   while(flag_read)
    {
     get_target_values();
-    Serial.println("Loop Loop");
+    // Serial.println("Loop Loop");
      if(my_array[0] != 0 &&
         my_array[1] != 0 &&
         my_array[2] != 0 &&
@@ -126,7 +126,7 @@ void loop()
 void get_target_values() {
   if (Serial.available()) { // check if there's data available on the Serial port
     String data = Serial.readString(); // read the data as a String
-    Serial.println(data);
+    // Serial.println(data);
     int delimiter_index = data.indexOf(','); // find the index of the comma delimiter
     int array_index = 0;
     while (delimiter_index != -1) { // loop while there are still delimiters in the string
@@ -137,11 +137,11 @@ void get_target_values() {
       array_index++; // increment the array index
     }
     my_array[array_index] = data.toInt(); // convert the last value substring to an integer and store it in the array
-    for (int i = 0; i < 4; i++){
-      //Serial.println("%c\n", my_array[i]);
-      //printf("%c\n", my_array[i]);
-       Serial.println(my_array[i]);
-    }
+    // for (int i = 0; i < 4; i++){
+    //   //Serial.println("%c\n", my_array[i]);
+    //   //printf("%c\n", my_array[i]);
+    //    Serial.println(my_array[i]);
+    // }
   }
   
   // if (Serial.available()) { // check if there's data available on the Serial port

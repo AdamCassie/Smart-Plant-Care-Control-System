@@ -72,6 +72,7 @@ def registration_page(dB : PlantParam, ser):
             print(data)
         event, values = window.read()
         if event == sg.WINDOW_CLOSED:
+
             break
         elif event == 'Confirm Registration':
 
@@ -81,25 +82,32 @@ def registration_page(dB : PlantParam, ser):
 
             # check the input parameters for validity
             if values['-PlantType-'] == '' or values['-Moisture-'] == '' or values['-Nitrogen-'] == '' or values['-Phosphorous-'] == '' or values['-Potassium-'] == '':
+
                 invalid = True
                 window['-Error-'].update(value="Please ensure all text-fields are completed")
             elif int(values['-Moisture-']) > 100 or int(values['-Moisture-']) < 0:
+
                 invalid = True
                 window['-Error-'].update(value="Moisture should be within 0 and 100%")
             elif int(values['-Nitrogen-']) < 0 or int(values['-Nitrogen-']) > 255 :
+
                 invalid = True
                 window['-Error-'].update(value="Nitrogen should be between 0 and 255 mg/Kg")
             elif int(values['-Phosphorous-']) < 0 or int(values['-Phosphorous-']) > 255 :
+
                 invalid = True
                 window['-Error-'].update(value="Phosphorous should be between 0 and 255 mg/Kg")
             elif int(values['-Potassium-']) < 0 or int(values['-Potassium-']) > 255 :
+
                 invalid = True
                 window['-Error-'].update(value="Potassium should be between 0 and 255 mg/Kg")
             else:
+
                 invalid = False
             #push valid values
             # go to monitoring page
             if not invalid:
+
                 # write the selected params to the csv file
                 # open the CSV file for writing
                 file_path = csv_dir + "/inputToArduino.csv"
@@ -117,6 +125,19 @@ def registration_page(dB : PlantParam, ser):
                 dB.add_plant_params(values['-PlantType-'], int(values['-Moisture-']),
                                     int(values['-Nitrogen-']), int(values['-Phosphorous-']),
                                     int(values['-Potassium-']))
+
+                my_array = dB.get_plant_params(values['-PlantType-'])
+
+                # Convert the array to a string
+                array_string = str(my_array)
+
+                # Remove the parentheses from the string
+                array_string = array_string.replace("(", "")
+                array_string = array_string.replace(")", "")
+
+                # print("selected parameters are ", my_array)
+
+                ser.write(bytes(array_string, 'utf-8'))  # send the array to the Arduino over Serial
 
                 window.close()
                 output.output(dB, ser)

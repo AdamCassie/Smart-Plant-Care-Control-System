@@ -54,13 +54,11 @@ def start_up_page(dB : PlantParam, ser):
             data = data.strip().split(' ')
             print(data)
         # Display and interact with the Window
-        event, values = window.read()                   # Part 4 - Event loop or Window.read call
-        print(event)
+        event, values = window.read(timeout=100)                   # Part 4 - Event loop or Window.read call
         if event == sg.WINDOW_CLOSED:
             break
         # if select plant to monitor load selection page
         elif event == 'Select Plant To Monitor':
-            print(event)
             window.close()
             selection_page.selection_page(dB,ser)
             break

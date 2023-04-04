@@ -80,7 +80,7 @@ def selection_page(dB : PlantParam, ser):
             data = data.strip().split(' ')
             print(data)
         # Display and interact with the Window
-        event, values = window.read()                   # Part 4 - Event loop or Window.read call
+        event, values = window.read(timeout=100)                   # Part 4 - Event loop or Window.read call
         # clean up when window closed
         if event == sg.WINDOW_CLOSED or event == "Exit":
             break
@@ -121,7 +121,7 @@ def selection_page(dB : PlantParam, ser):
                 array_string = array_string.replace("(", "")
                 array_string = array_string.replace(")", "")
 
-                print("selected parameters are ", my_array)
+               # print("selected parameters are ", my_array)
 
                 ser.write(bytes(array_string, 'utf-8'))  # send the array to the Arduino over Serial
             window.close()
