@@ -91,18 +91,18 @@ def registration_page(dB : PlantParam, ser):
 
                 invalid = True
                 window['-Error-'].update(value="Moisture should be within 0 and 100%")
-            elif int(values['-Nitrogen-']) < 0 or int(values['-Nitrogen-']) > 255 :
+            elif int(values['-Nitrogen-']) < 0 or int(values['-Nitrogen-']) > 1999 :
 
                 invalid = True
-                window['-Error-'].update(value="Nitrogen should be between 0 and 255 mg/Kg")
-            elif int(values['-Phosphorous-']) < 0 or int(values['-Phosphorous-']) > 255 :
+                window['-Error-'].update(value="Nitrogen should be between 0 and 1999 mg/Kg")
+            elif int(values['-Phosphorous-']) < 0 or int(values['-Phosphorous-']) > 1999 :
 
                 invalid = True
-                window['-Error-'].update(value="Phosphorous should be between 0 and 255 mg/Kg")
-            elif int(values['-Potassium-']) < 0 or int(values['-Potassium-']) > 255 :
+                window['-Error-'].update(value="Phosphorous should be between 0 and 1999 mg/Kg")
+            elif int(values['-Potassium-']) < 0 or int(values['-Potassium-']) > 1999 :
 
                 invalid = True
-                window['-Error-'].update(value="Potassium should be between 0 and 255 mg/Kg")
+                window['-Error-'].update(value="Potassium should be between 0 and 1999 mg/Kg")
             else:
 
                 invalid = False

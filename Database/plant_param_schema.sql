@@ -2,7 +2,7 @@
 -- Phosphorous (P) and Potassium (K) for common houseplants found in North America.
 -- Soil Moisture target is given as a percentage value (range from 0% to 100%).
 -- N, P and K target values are given as the mass of the respective nutrient present 
--- in every kilogram of soil (range from 0mg/kg to 255mg/kg).
+-- in every kilogram of soil (range from 0mg/kg to 1999mg/kg).
 
 drop schema if exists plant_param cascade;
 create schema plant_param;
