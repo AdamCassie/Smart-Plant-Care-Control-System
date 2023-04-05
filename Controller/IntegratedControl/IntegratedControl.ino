@@ -14,6 +14,10 @@
 #define P_DELAY 1250
 #define K_DELAY 1250
 
+// Moisture Sernsor 
+#define MAX_MOISTURE 700
+#define MIN_MOISTURE 280
+
 const byte nitro[] = {0x01, 0x03, 0x00, 0x1e, 0x00, 0x01, 0xe4, 0x0c};
 const byte phos[] = {0x01, 0x03, 0x00, 0x1f, 0x00, 0x01, 0xb5, 0xcc};
 const byte pota[] = {0x01, 0x03, 0x00, 0x20, 0x00, 0x01, 0x85, 0xc0};
@@ -290,6 +294,11 @@ int read_moisture()
 
   Serial.print("Modal moisture level: ");
   Serial.println(moistureLvl);
+  
+  moistureLvl = compute_moisture_percentage(moistureLvl)
+
+  Serial.print("\nMoisture Percentage: ");
+  Serial.println(moistureLvl);
 
   return moistureLvl;
 }
@@ -496,25 +505,8 @@ void print_nutrient_offset(int n_offset, int p_offset, int k_offset)
   Serial.println("");
 }
 
-// // Loss function for gradient descent algorithm
-// int compute_loss()
-// {
-//   int moisture_offset = moisture.target - moisture.value;
-//   int n_offset = n.target - n.value;
-//   int p_offset = p.target - p.value;
-//   int k_offset = k.target - k.value;
-//   int result = (moisture_offset ^ 2) + (n_offset ^ 2) + (p_offset ^ 2) + (k_offset ^ 2);
-//   return result;
-// }
-
-// void compute_gradient()
-// {
-//   int moisture_offset = moisture.target - moisture.value;
-//   int n_offset = n.target - n.value;
-//   int p_offset = p.target - p.value;
-//   int k_offset = k.target - k.value;
-//   moisture.gradient = 2 * moisture.offset;
-//   n.gradient = 2 * n.offset;
-//   p.gradient = 2 * p.offset;
-//   k.gradient = 2 * k.offset;
-// }
+int compute_moisture_percentage(int num) {
+    int percentage;
+    percentage = (num - MAX_MOISTURE) / (MIN_MOISTURE - MAX_MOISTURE) * 100;
+    return percentage;
+}
