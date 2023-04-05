@@ -60,7 +60,7 @@ try:
     # Note: make sure that the schema and data files are in the same
     # directory (folder) as your query_plant_param.py file.
     data_file_path = database_dir
-    print(data_file_path)
+    #print(data_file_path)
     query_plant_param.setup(dbname, user, password, data_file_path)
     # --------------------- Testing get_plant_params  ------------------------#
 

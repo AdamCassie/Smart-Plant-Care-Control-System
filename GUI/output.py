@@ -21,8 +21,7 @@ def output(dB: PlantParam, ser, ideal_params):
     # set a colour theme for window
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
-    # print(type(ideal_params[0]))
-    ideal_params = [1,2,3,4]
+    # ideal_params = [1,2,3,4]
     # getting the screen size to make the window full screen
     screen_width, screen_height = sg.Window.get_screen_size()
 
@@ -30,26 +29,26 @@ def output(dB: PlantParam, ser, ideal_params):
                [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='NITROGEN')],
                [sg.VerticalSeparator(pad=(0, 15))],
                [sg.Text("Ideal Nitrogen value:", font=("Arial", 20, 'bold'))],
-               [sg.Text(ideal_params[0], font=('Arial', 80), size=(10, 1), justification='center')],
+               [sg.Text(ideal_params[1], font=('Arial', 80), size=(10, 1), justification='center')],
                [sg.VerticalSeparator(pad=(0, 25))],
                [sg.Text("Soil Potassium value:", font=("Arial", 20, 'bold'))],
                [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='POTASSIUM')],
                [sg.VerticalSeparator(pad=(0, 15))],
                [sg.Text("Ideal Potassium value:", font=("Arial", 20, 'bold'))],
-               [sg.Text(ideal_params[1], font=('Arial', 80), size=(10, 1), justification='center')]
+               [sg.Text(ideal_params[2], font=('Arial', 80), size=(10, 1), justification='center')]
                ]
 
     column2 = [[sg.Text("Soil Phosphorus value:", font=("Arial", 20, 'bold'))],
                [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='PHOSPHORUS')],
                [sg.VerticalSeparator(pad=(0, 15))],
                [sg.Text("Ideal Phosphorus value:", font=("Arial", 20, 'bold'))],
-               [sg.Text(ideal_params[2], font=('Arial', 80), size=(10, 1), justification='center')],
+               [sg.Text(ideal_params[3], font=('Arial', 80), size=(10, 1), justification='center')],
                [sg.VerticalSeparator(pad=(0, 25))],
-               [sg.Text("Soil Moisture value:", font=("Arial", 20, 'bold'))],
+               [sg.Text("Soil Moisture percentage:", font=("Arial", 20, 'bold'))],
                [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='MOISTURE')],
                [sg.VerticalSeparator(pad=(0, 15))],
-               [sg.Text("Ideal Moisture value:", font=("Arial", 20, 'bold'))],
-               [sg.Text(ideal_params[3], font=('Arial', 80), size=(10, 1), justification='center')]
+               [sg.Text("Ideal Moisture percentage:", font=("Arial", 20, 'bold'))],
+               [sg.Text(ideal_params[0], font=('Arial', 80), size=(10, 1), justification='center')]
                ]
 
     # button to close the window
@@ -82,25 +81,25 @@ def output(dB: PlantParam, ser, ideal_params):
                 # update the output window
                 if data[0] == "Nitrogen" and data[1] == "value:":
                     n_val = int(data[4])
-                    if n_val >= ideal_params[0]:
+                    if n_val >= ideal_params[1]:
                         window['NITROGEN'].update(n_val, text_color='green')
                     else:
                         window['NITROGEN'].update(n_val, text_color='red')
                 elif data[0] == "Phosphorous" and data[1] == "value:":
                     p_val = int(data[4])
-                    if p_val >= ideal_params[1]:
+                    if p_val >= ideal_params[2]:
                         window['PHOSPHORUS'].update(p_val, text_color='green')
                     else:
                         window['PHOSPHORUS'].update(p_val, text_color='red')
                 elif data[0] == "Potassium" and data[1] == "value:":
                     k_val = int(data[4])
-                    if p_val >= ideal_params[2]:
+                    if k_val >= ideal_params[3]:
                         window['POTASSIUM'].update(k_val, text_color='green')
                     else:
                         window['POTASSIUM'].update(k_val, text_color='red')
                 elif data[0] == "Modal":
                     m_val = int(data[3])
-                    if p_val >= ideal_params[3]:
+                    if m_val >= ideal_params[0]:
                         window['MOISTURE'].update(m_val, text_color='green')
                     else:
                         window['MOISTURE'].update(m_val, text_color='red')

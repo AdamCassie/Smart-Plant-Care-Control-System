@@ -47,7 +47,6 @@ def start_up_page(dB : PlantParam, ser):
     window = sg.Window('Smart Plant Care Control Start Up Page',
                        layout, size = (screen_width, screen_height), location = (0,0))
 
-
     while True:
         data = ser.readline().decode('utf-8')
         if data:
@@ -60,15 +59,14 @@ def start_up_page(dB : PlantParam, ser):
         # if select plant to monitor load selection page
         elif event == 'Select Plant To Monitor':
             window.close()
-            selection_page.selection_page(dB,ser)
+            selection_page.selection_page(dB, ser)
             break
         # if select monitoring page go to the monitoring page
         # this will give an error: need to check this
         elif event == 'Monitor Current Plant':
             window.close()
-            output.output(dB,ser)
+            output.output(dB, ser)
             break
-
 
     # Finish up by removing from the screen
     window.close()                                  # Part 5 - Close the Window
