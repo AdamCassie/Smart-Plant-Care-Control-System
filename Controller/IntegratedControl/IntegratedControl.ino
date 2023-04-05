@@ -295,7 +295,7 @@ int read_moisture()
   Serial.print("Modal moisture level: ");
   Serial.println(moistureLvl);
   
-  moistureLvl = compute_moisture_percentage(moistureLvl)
+  moistureLvl = compute_moisture_percentage(moistureLvl);
 
   Serial.print("\nMoisture Percentage: ");
   Serial.println(moistureLvl);
