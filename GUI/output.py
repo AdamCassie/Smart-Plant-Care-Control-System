@@ -2,9 +2,6 @@ import PySimpleGUI as sg
 import start_up_page
 import os
 import sys
-import serial
-
-timer = 2000
 
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -24,7 +21,8 @@ def output(dB: PlantParam, ser, ideal_params):
     # set a colour theme for window
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
-    print(type(ideal_params[0]))
+    # print(type(ideal_params[0]))
+    ideal_params = [1,2,3,4]
     # getting the screen size to make the window full screen
     screen_width, screen_height = sg.Window.get_screen_size()
 
@@ -71,17 +69,15 @@ def output(dB: PlantParam, ser, ideal_params):
     k_val = 0
 
     while True:
-        data = ser.readline().decode('utf-8')
-        if data:
-            data = data.strip().split(' ')
-            print(data)
-        event, values = window.read(timeout=timer)
+        event, values = window.read(timeout=100)
         # close the window
         if event == sg.WINDOW_CLOSED:
             break
         if event == '__TIMEOUT__':
             # read data from serial port
             data = ser.readline().decode().strip().split(' ')
+            # printing the data to the serial port as well
+            print(data)
             if data:
                 # update the output window
                 if data[0] == "Nitrogen" and data[1] == "value:":
@@ -112,4 +108,5 @@ def output(dB: PlantParam, ser, ideal_params):
             window.close()
             start_up_page.start_up_page(dB, ser)
             break
+
     window.close()

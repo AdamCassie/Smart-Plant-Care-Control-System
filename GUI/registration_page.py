@@ -7,8 +7,6 @@ import os
 import sys
 import serial
 
-timer = 2000
-
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 
@@ -72,7 +70,7 @@ def registration_page(dB : PlantParam, ser):
         if data:
             data = data.strip().split(' ')
             print(data)
-        event, values = window.read(timeout=timer)
+        event, values = window.read(timeout=1000)
         if event == sg.WINDOW_CLOSED:
 
             break

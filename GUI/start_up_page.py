@@ -5,7 +5,6 @@ import os
 import sys
 import serial
 
-timer = 2000
 
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -55,7 +54,7 @@ def start_up_page(dB : PlantParam, ser):
             data = data.strip().split(' ')
             print(data)
         # Display and interact with the Window
-        event, values = window.read(timeout=timer)                   # Part 4 - Event loop or Window.read call
+        event, values = window.read(timeout=1000)                   # Part 4 - Event loop or Window.read call
         if event == sg.WINDOW_CLOSED:
             break
         # if select plant to monitor load selection page
