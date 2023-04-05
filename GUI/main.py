@@ -19,7 +19,19 @@ sys.path.insert(0, database_dir)
 from query_plant_param import PlantParam
 import query_plant_param
 
-ser = serial.Serial('COM3', 4800, timeout=1)  # replace 'COM3' with the name of the port your Arduino is connected to
+port = None
+ser = None
+valid_port = False
+while(valid_port == False):
+    port = input("Please enter the port for the Arduino board: ").upper()
+    if port in ["COM3", "COM4"]:
+        try:
+            ser = serial.Serial(port, 4800, timeout=1)
+            valid_port = True
+        except serial.serialutil.SerialException:
+            print(f"Could not open port {port}. Try another port.")
+    else:
+        print("Invalid port entered. Try again.")
 
 pp = PlantParam()
 qf = None
