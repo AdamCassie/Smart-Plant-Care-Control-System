@@ -506,7 +506,7 @@ void print_nutrient_offset(int n_offset, int p_offset, int k_offset)
 }
 
 int compute_moisture_percentage(int num) {
-    int percentage;
-    percentage = (num - MAX_MOISTURE) / (MIN_MOISTURE - MAX_MOISTURE) * 100;
-    return percentage;
+    double percentage;
+    percentage = (double) (num - MAX_MOISTURE) / (double) (MIN_MOISTURE - MAX_MOISTURE) * 100;
+    return (int) percentage;
 }
