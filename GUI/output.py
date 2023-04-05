@@ -98,7 +98,7 @@ def output(dB: PlantParam, ser, ideal_params):
                     else:
                         window['POTASSIUM'].update(k_val, text_color='red')
                 elif data[0] == "Moisture" and data[1] == 'Percentage:':
-                    m_val = int(data[3])
+                    m_val = int(data[2])
                     if m_val >= ideal_params[0]:
                         window['MOISTURE'].update(m_val, text_color='green')
                     else:
