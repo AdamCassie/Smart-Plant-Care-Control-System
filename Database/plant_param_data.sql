@@ -1,4 +1,7 @@
 -- a few test values
+insert into IdealPlantParams values ('Plant1', 60, 20, 20, 20);
+insert into IdealPlantParams values ('Plant2', 60, 30, 30, 30);
+insert into IdealPlantParams values ('Plant3', 60, 40, 40, 40);
 -- NPK sensor range: 0-1999mg/kg
 insert into IdealPlantParams values ('Spider Plant', 32, 200000, 200000, 200000);
 insert into IdealPlantParams values ('Norfolk Island Pine', 32, 200000, 200000, 200000);
