@@ -14,9 +14,9 @@
 #define P_DELAY 1250
 #define K_DELAY 1250
 
-// Moisture Sernsor 
-#define MAX_MOISTURE 700
-#define MIN_MOISTURE 280
+// Capacitive Moisture Sensor limits based on tests
+#define MAX_MOISTURE 600
+#define MIN_MOISTURE 300
 
 const byte nitro[] = {0x01, 0x03, 0x00, 0x1e, 0x00, 0x01, 0xe4, 0x0c};
 const byte phos[] = {0x01, 0x03, 0x00, 0x1f, 0x00, 0x01, 0xb5, 0xcc};
@@ -70,7 +70,7 @@ int my_array[4] = {0,0,0,0};
 // Global flag to activate control loop
 // Value set to true when a plant is being monitored
 // Value set to false when a plant is being selected or registered
-bool monitor_plant = false;
+// bool monitor_plant = false;
 
 // Setup code to run once
 void setup()
@@ -121,11 +121,11 @@ void loop()
        flag_read = false; 
      }
    }
-  if (monitor_plant == true) 
-  {
-    Serial.println("Beginning control");
-    optimize_params();
-  }
+  // if (monitor_plant == true) 
+  // {
+  Serial.println("Beginning control");
+  optimize_params();
+  // }
 }
 
 
@@ -287,6 +287,7 @@ int read_moisture()
 {
   int moistureVals[5];
 
+  // Get five consecutive moisture readings from the sensor
   for (int i = 0; i < 5; ++i)
   {
     moistureVals[i] = analogRead(Pin1);
@@ -295,11 +296,23 @@ int read_moisture()
     delay(5000);
   }
 
+  // Compute the modal moisture
   int moistureLvl = compute_modal_moisture(moistureVals, sizeof(moistureVals) / sizeof(moistureVals[0]));
 
   Serial.print("Modal moisture level: ");
   Serial.println(moistureLvl);
   
+  // Saturate moisture reading to limits defined above
+  if (moistureLvl < MIN_MOISTURE) 
+  {
+    moistureLvl = MIN_MOISTURE;
+  }
+  else if (moistureLvl > MAX_MOISTURE) 
+  {
+    moistureLvl = MAX_MOISTURE;
+  }
+
+  // Convert the moisture reading to a percentage
   moistureLvl = compute_moisture_percentage(moistureLvl);
 
   Serial.print("\nMoisture Percentage: ");
@@ -496,6 +509,7 @@ int compute_modal_moisture(int a[], int n)
   return result;
 }
 
+// Print the difference between the sensor reading for each nutrient from its target value
 void print_nutrient_offset(int n_offset, int p_offset, int k_offset)
 {
   Serial.print("Nitrogen offset: ");
@@ -510,6 +524,7 @@ void print_nutrient_offset(int n_offset, int p_offset, int k_offset)
   Serial.println("");
 }
 
+// Compute the moisture level read by the sensor to a percentage value
 int compute_moisture_percentage(int num) {
     double percentage;
     percentage = (double) (num - MAX_MOISTURE) / (double) (MIN_MOISTURE - MAX_MOISTURE) * 100;
