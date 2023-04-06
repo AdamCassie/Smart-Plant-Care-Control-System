@@ -67,8 +67,10 @@ Rank nutrient_priority = {'N', 'P', 'K', &n, &p, &k};
 // Global variable for control params
 int my_array[4] = {0,0,0,0};
 
-// CSV file containing target values for plant selected via GUI
-FILE *fp = NULL;
+// Global flag to activate control loop
+// Value set to true when a plant is being monitored
+// Value set to false when a plant is being selected or registered
+bool monitor_plant = false;
 
 // Setup code to run once
 void setup()
@@ -119,8 +121,11 @@ void loop()
        flag_read = false; 
      }
    }
-  Serial.println("Beginning control");
-  optimize_params();
+  if (monitor_plant == true) 
+  {
+    Serial.println("Beginning control");
+    optimize_params();
+  }
 }
 
 
