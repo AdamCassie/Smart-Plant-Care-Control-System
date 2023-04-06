@@ -1,4 +1,5 @@
 -- a few test values
+-- NPK sensor range: 0-1999mg/kg
 insert into IdealPlantParams values ('Spider Plant', 32, 200000, 200000, 200000);
 insert into IdealPlantParams values ('Norfolk Island Pine', 32, 200000, 200000, 200000);
 insert into IdealPlantParams values ('Peace Lily', 42, 100000, 100000, 100000);
