@@ -98,6 +98,10 @@ def selection_page(dB : PlantParam, ser):
             registration_page.registration_page(dB,ser)
             break
         elif event == 'Confirm Control Parameters Selection':
+            # check if a plant has been selected from dropdown
+            if not values["-OPTION1-"]:
+                print("Select a plant from the dropdown!")
+                continue
             # write selected parameters to the csv file
             # open the CSV file for writing
             file_path = csv_dir + "/inputToArduino.csv"
