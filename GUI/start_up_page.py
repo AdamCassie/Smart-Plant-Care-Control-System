@@ -4,6 +4,7 @@ import output
 import os
 import sys
 import serial
+import csv
 
 
 # Get the path to the directory containing the current script
@@ -11,6 +12,9 @@ script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 
 # Get the path to the sibling directory by joining the script directory with the sibling directory name
 database_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Database'))).replace("\\", "/")
+
+# Get the path to the input CSV file
+csv_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Controller'))).replace("\\", "/") + "/IntegratedControl"
 
 # Print the path to the sibling directory
 print(database_dir)
@@ -64,8 +68,19 @@ def start_up_page(dB : PlantParam, ser):
         # if select monitoring page go to the monitoring page
         # this will give an error: need to check this
         elif event == 'Monitor Current Plant':
+            # read selected parameters from the csv file
+            # open the CSV file for reading
+            file_path = csv_dir + "/inputToArduino.csv"
+            with open(file_path, 'r', newline='') as csvfile:
+                csvreader = csv.reader(csvfile)
+                # skip the header row
+                next(csvreader)
+                # read the second row
+                my_array = next(csvreader)
+                my_array.pop(0)
+                my_array = [int(i) for i in my_array]
             window.close()
-            output.output(dB, ser)
+            output.output(dB,ser, my_array)
             break
 
     # Finish up by removing from the screen
