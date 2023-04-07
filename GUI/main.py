@@ -10,6 +10,8 @@ script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 # Get the path to the sibling directory by joining the script directory with the sibling directory name
 database_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Database'))).replace("\\", "/")
 
+# Get the path to the input CSV file
+csv_dir = (os.path.abspath(os.path.join(script_dir, '..', 'Controller'))).replace("\\", "/") + "/IntegratedControl"
 
 # get the database functions to use in the selection page
 # Add the path to the directory containing my_module.py to the system path
@@ -59,11 +61,17 @@ try:
     # your database.
     # Note: make sure that the schema and data files are in the same
     # directory (folder) as your query_plant_param.py file.
-    data_file_path = database_dir
-    #print(data_file_path)
-    query_plant_param.setup(dbname, user, password, data_file_path)
-    # --------------------- Testing get_plant_params  ------------------------#
+    query_plant_param.setup(dbname, user, password, database_dir)
 
+    # Delete csv file with input for Arduino (if it exists)
+    csv_file = csv_dir + "/inputToArduino.csv"
+    if os.path.isfile(csv_file):
+        os.remove(csv_file)
+        print(f"The csv file {csv_file} has been deleted.")
+    else:
+        print(f"The csv file {csv_file} does not exist.")
+
+    # Go to startup page
     start_up_page.start_up_page(pp, ser)
 
     # while True:

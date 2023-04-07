@@ -70,15 +70,19 @@ def start_up_page(dB : PlantParam, ser):
         elif event == 'Monitor Current Plant':
             # read selected parameters from the csv file
             # open the CSV file for reading
-            file_path = csv_dir + "/inputToArduino.csv"
-            with open(file_path, 'r', newline='') as csvfile:
-                csvreader = csv.reader(csvfile)
-                # skip the header row
-                next(csvreader)
-                # read the second row
-                my_array = next(csvreader)
-                my_array.pop(0)
-                my_array = [int(i) for i in my_array]
+            try:
+                file_path = csv_dir + "/inputToArduino.csv"
+                with open(file_path, 'r', newline='') as csvfile:
+                    csvreader = csv.reader(csvfile)
+                    # skip the header row
+                    next(csvreader)
+                    # read the second row
+                    my_array = next(csvreader)
+                    my_array.pop(0)
+                    my_array = [int(i) for i in my_array]
+            except FileNotFoundError:
+                print("No plant currently selected to monitor.\nClick 'Select Plant To Monitor'")
+                continue
             window.close()
             output.output(dB,ser, my_array)
             break
