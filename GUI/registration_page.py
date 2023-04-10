@@ -6,6 +6,7 @@ import csv
 import os
 import sys
 import serial
+import start_up_link
 
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -24,7 +25,7 @@ sys.path.insert(0, database_dir)
 # Import the my_module.py module
 from query_plant_param import PlantParam
 
-def registration_page(dB : PlantParam, ser):
+def registration_page(dB : PlantParam, ser, modal):
     # set a colour theme for window
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
@@ -65,7 +66,10 @@ def registration_page(dB : PlantParam, ser):
 
     window = sg.Window('Registration', layout, resizable=True, size=(screen_width, screen_height))
 
+    count = 0
     while True:
+        if count == 1:
+            modal.close()
         data = ser.readline().decode('utf-8')
         if data:
             data = data.strip().split(' ')
@@ -139,16 +143,16 @@ def registration_page(dB : PlantParam, ser):
 
                 ser.write(bytes(array_string, 'utf-8'))  # send the array to the Arduino over Serial
 
-                window.close()
-                output.output(dB, ser, my_array)
+                # window.close()
+                output.output(dB, ser, my_array, window, values['-PlantType-'])
                 break
 
 
 
         elif event == 'Cancel':
-            window.close()
+            # window.close()
             # send back to homepage
-            start_up_page.start_up_page(dB, ser)
+            start_up_link.start_up_link(dB, ser, window)
             break
-
+        count += 1
     window.close()

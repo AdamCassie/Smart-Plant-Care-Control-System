@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b9dd7028-2f46-43c3-a552-ac3cd5346e8a" name="Changes" comment=" GUI writes to the input CSV file in the Controller directory">
+      <change afterPath="$PROJECT_DIR$/start_up_link.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Controller/IntegratedControl/inputToArduino.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../Controller/IntegratedControl/inputToArduino.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.py" beforeDir="false" afterPath="$PROJECT_DIR$/output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Main/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Main/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/registration_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/registration_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/selection_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start_up_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/start_up_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

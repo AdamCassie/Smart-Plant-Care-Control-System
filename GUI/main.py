@@ -26,7 +26,7 @@ ser = None
 valid_port = False
 while(valid_port == False):
     port = input("Please enter the port for the Arduino board: ").upper()
-    if port in ["COM3", "COM4"]:
+    if port in ["COM3", "COM4", "COM5"]:
         try:
             ser = serial.Serial(port, 4800, timeout=1)
             valid_port = True
@@ -70,6 +70,7 @@ try:
         print(f"The csv file {csv_file} has been deleted.")
     else:
         print(f"The csv file {csv_file} does not exist.")
+
 
     # Go to startup page
     start_up_page.start_up_page(pp, ser)

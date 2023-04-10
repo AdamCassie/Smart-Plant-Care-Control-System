@@ -6,6 +6,7 @@ import csv
 import os
 import sys
 import serial
+import start_up_link
 
 # Get the path to the directory containing the current script
 script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -26,7 +27,7 @@ from query_plant_param import PlantParam
 
 
 
-def selection_page(dB : PlantParam, ser):
+def selection_page(dB : PlantParam, ser, modal):
     # create an instance of the database
 
     # set a colour theme for window
@@ -73,8 +74,10 @@ def selection_page(dB : PlantParam, ser):
     window = sg.Window('Plant Selection', layout, titlebar_text_color= 'black',
                        size=(screen_width, screen_height), location=(0, 0)
                        ,resizable = True)      # Part 3 - Window Defintion
-
+    count = 0
     while True:
+        if (count == 1):
+            modal.close()
         data = ser.readline().decode('utf-8')
         if data:
             data = data.strip().split(' ')
@@ -94,13 +97,16 @@ def selection_page(dB : PlantParam, ser):
             window["-Phosphorous-"].update(value=selected_prams[2])
             window["-Potassium-"].update(value=selected_prams[3])
         elif event == 'Go to Plant Registration':
-            window.close()
-            registration_page.registration_page(dB,ser)
+            # window.close()
+            registration_page.registration_page(dB, ser, window)
             break
         elif event == 'Confirm Control Parameters Selection':
             # check if a plant has been selected from dropdown
             if not values["-OPTION1-"]:
                 print("Select a plant from the dropdown!")
+                sg.popup('Select a plant from the dropdown!',
+                         button_type=sg.POPUP_BUTTONS_OK, title='ERROR', text_color='RED',
+                         font=("Arial", 20))
                 continue
             # write selected parameters to the csv file
             # open the CSV file for writing
@@ -128,16 +134,16 @@ def selection_page(dB : PlantParam, ser):
                # print("selected parameters are ", my_array)
 
                 ser.write(bytes(array_string, 'utf-8'))  # send the array to the Arduino over Serial
-            window.close()
-            output.output(dB,ser, my_array)
+            # window.close()
+            output.output(dB, ser, my_array, window, values["-OPTION1-"])
             break
 
         elif event == 'Cancel Plant Selection':
-            window.close()
+            # window.close()
             # send back to homepage
-            start_up_page.start_up_page(dB,ser)
+            start_up_link.start_up_link(dB, ser, window)
             break
 
         # query the database for the Nitrogen Potassium and Phosphorous levels and print them to the screen
-
+        count += 1
     window.close()

@@ -1,3 +1,6 @@
+# this page is a filler page to create a copy of start up page so that it can be closed within GUI so program does not
+# crash when the start up page should be called from a different page
+
 import PySimpleGUI as sg                        # Part 1 - The import
 import selection_page
 import output
@@ -5,7 +8,6 @@ import os
 import sys
 import serial
 import csv
-
 
 
 # Get the path to the directory containing the current script
@@ -28,7 +30,7 @@ sys.path.insert(0, database_dir)
 from query_plant_param import PlantParam
 
 
-def start_up_page(dB : PlantParam, ser):
+def start_up_link(dB : PlantParam, ser, modal):
     sg.theme('LightGrey')
     sg.theme_button_color('Grey')
 
@@ -52,8 +54,10 @@ def start_up_page(dB : PlantParam, ser):
     window = sg.Window('Smart Plant Care Control Start Up Page',
                        layout, size = (screen_width, screen_height), location = (0,0))
 
+    count = 0
     while True:
-
+        if count == 1:
+            modal.close()
         data = ser.readline().decode('utf-8')
         if data:
             data = data.strip().split(' ')
@@ -86,13 +90,13 @@ def start_up_page(dB : PlantParam, ser):
             except FileNotFoundError:
                 print("No plant currently selected to monitor.\nClick 'Select Plant To Monitor'")
                 sg.popup('No plant currently selected to monitor.\n Select a plant to Monitor',
-                         button_type=sg.POPUP_BUTTONS_OK, title='ERROR', text_color= 'RED',
+                         button_type=sg.POPUP_BUTTONS_OK, title='ERROR', text_color='RED',
                          font=("Arial", 20))
                 continue
             # window.close()
             output.output(dB,ser, my_array, window, plant_name)
             break
-
+        count += 1
     # Finish up by removing from the screen
     window.close()                                  # Part 5 - Close the Window
 
