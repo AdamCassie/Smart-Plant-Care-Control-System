@@ -68,8 +68,8 @@ def output(dB: PlantParam, ser, ideal_params, modal, plant_name):
 
     # setting up the layout
     layout = [[sg.Column(column4, size=(450, screen_height)),
-               sg.Column(column1, size=(400, screen_height)),
-               sg.Column(column2, size=(500, screen_height)),
+               sg.Column(column1, size=(450, screen_height)),
+               sg.Column(column2, size=(450, screen_height)),
                sg.Column(column3)
               ]]
 
