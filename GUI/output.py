@@ -37,7 +37,7 @@ def output(dB: PlantParam, ser, ideal_params, modal, plant_name):
                [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='POTASSIUM')],
                [sg.VerticalSeparator(pad=(0, 15))],
                [sg.Text("Ideal Potassium value:", font=("Arial", 20, 'bold'))],
-               [sg.Text(ideal_params[2], font=('Arial', 80), size=(10, 1), justification='center')]
+               [sg.Text(ideal_params[3], font=('Arial', 80), size=(10, 1), justification='center')]
                ]
 
     column2 = [
@@ -45,7 +45,7 @@ def output(dB: PlantParam, ser, ideal_params, modal, plant_name):
                [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='PHOSPHORUS')],
                [sg.VerticalSeparator(pad=(0, 15))],
                [sg.Text("Ideal Phosphorus value:", font=("Arial", 20, 'bold'))],
-               [sg.Text(ideal_params[3], font=('Arial', 80), size=(10, 1), justification='center')],
+               [sg.Text(ideal_params[2], font=('Arial', 80), size=(10, 1), justification='center')],
                [sg.VerticalSeparator(pad=(0, 25))],
                [sg.Text("Soil Moisture percentage:", font=("Arial", 20, 'bold'))],
                [sg.Text('0', font=('Arial', 80), size=(10, 1), justification='center', key='MOISTURE')],
@@ -56,17 +56,20 @@ def output(dB: PlantParam, ser, ideal_params, modal, plant_name):
 
     # button to close the window
     column3 = [
-               [sg.Button('Return To Home', size=(50, 3), font=("Arial", 16))]]
+               [sg.Button('Home', size=(10, 3), font=("Arial", 16))]]
 
     # print plant name to the output page
     column4 = [[sg.Text("Currently monitoring plant:", font=("Arial", 20, 'bold'))],
                [sg.VerticalSeparator(pad=(0, 25))],
-               [sg.Text(plant_name, font=("Arial", 40, 'bold'), size=(10, 3), auto_size_text=True)]]
+               [sg.Text(plant_name, font=("Arial", 40, 'bold'), size=(10, 3), auto_size_text=True)],
+               [sg.Text('Now dispensing:', font=('Arial', 20, 'bold'), justification='center')],
+               [sg.Text('', font=('Arial', 40, 'bold'), justification='center', key='SERIAL')]
+               ]
 
     # setting up the layout
-    layout = [[sg.Column(column4, size=(400, screen_height)),
+    layout = [[sg.Column(column4, size=(450, screen_height)),
                sg.Column(column1, size=(400, screen_height)),
-               sg.Column(column2, size=(400, screen_height)),
+               sg.Column(column2, size=(500, screen_height)),
                sg.Column(column3)
               ]]
 
@@ -116,7 +119,11 @@ def output(dB: PlantParam, ser, ideal_params, modal, plant_name):
                         window['MOISTURE'].update(m_val, text_color='green')
                     else:
                         window['MOISTURE'].update(m_val, text_color='red')
-        if event == 'Return To Home':
+                elif data[0] == "Now" and data[1] == 'pulsing':
+                    pump_name = data[3]
+                    pump_name = pump_name.replace("'", "")
+                    window['SERIAL'].update(pump_name)
+        if event == 'Home':
             # window.close()
             start_up_link.start_up_link(dB, ser, window)
             break
