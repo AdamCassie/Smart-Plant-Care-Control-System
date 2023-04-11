@@ -353,25 +353,25 @@ void optimize_params()
 
   if ((moisture.value < moisture.target) && (n.value >= n.target) && (p.value >= p.target) && (k.value >= k.target))
   { // Only moisture condition remains unsatified
-    delay(1500);
+    delay(3000);
     moisture_control();
     delay(500);
   }
   else if ((nutrient_priority.first_ptr->value < nutrient_priority.first_ptr->target) && (moisture.value < moisture.target))
   { // Nitrogen condition not satisfied and plant needs moisture too
-    delay(1500);
+    delay(3000);
     select_controller(nutrient_priority.first);
     delay(500);
   }
   else if ((nutrient_priority.second_ptr->value < nutrient_priority.second_ptr->target) && (moisture.value < moisture.target))
   { // Phosphorous condition not satisfied and plant needs moisture too
-    delay(1500);
+    delay(3000);
     select_controller(nutrient_priority.second);
     delay(500);
   }
   else if ((nutrient_priority.third_ptr->value < nutrient_priority.third_ptr->target) && (moisture.value < moisture.target))
   { // Potassium condition not satisfied and plant needs moisture too
-    delay(1500);
+    delay(3000);
     select_controller(nutrient_priority.third);
     delay(500);
   }
